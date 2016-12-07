@@ -4,5 +4,6 @@ module.exports = {
     'logger',
     'router',
     'amqp',
+    'http',
   ],
 };

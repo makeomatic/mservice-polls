@@ -1,0 +1,4 @@
+{
+  "id": "polls.create.request",
+  "type": "object"
+}

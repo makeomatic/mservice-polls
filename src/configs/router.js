@@ -1,19 +1,21 @@
 const { ActionTransport, routerExtension } = require('mservice');
 const path = require('path');
+const transportOptionsExtension = require('../plugins/router/extensions/transport-options');
 
-const { amqp } = ActionTransport;
+const { http } = ActionTransport;
 
 module.exports = {
   router: {
     routes: {
       directory: path.resolve(__dirname, './../actions'),
-      prefix: 'action',
-      transports: [amqp],
+      prefix: '',
+      transports: [http],
     },
     extensions: {
-      enabled: ['preRequest', 'preResponse'],
+      enabled: ['preRequest', 'postRequest', 'preResponse'],
       register: [
         routerExtension('audit/log'),
+        transportOptionsExtension,
       ],
     },
   },
