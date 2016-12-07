@@ -10,6 +10,7 @@ function createPollAction({ params }) {
   return Promise.resolve(params);
 }
 
+createPollAction.auth = 'token';
 createPollAction.schema = 'polls.create.request';
 createPollAction.transports = ['http'];
 createPollAction.transportsOptions = {
