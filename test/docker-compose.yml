@@ -1,5 +1,12 @@
 version: '2'
 services:
+  postgres:
+    expose:
+      - "5432"
+    image: postgres:9.5.4
+    container_name: pg
+    hostname: pg
+
   rabbitmq:
       expose:
         - "4369"
@@ -48,7 +55,7 @@ services:
       - REDIS_1=redis-1
       - REDIS_2=redis-2
       - REDIS_3=redis-3
-          
+
   ms-users:
     links:
       - redis-1
@@ -73,6 +80,7 @@ services:
     image: makeomatic/node:7.1.0-tester
     links:
       - rabbitmq
+      - postgres
     working_dir: /src
     volumes:
       - ${PWD}:/src

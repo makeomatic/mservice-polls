@@ -23,15 +23,18 @@
   "homepage": "https://github.com/makeomatic/mservice-polls#readme",
   "dependencies": {
     "bluebird": "^3.4.6",
+    "bookshelf": "^0.10.2",
     "bunyan": "^1.8.1",
     "common-errors": "^1.0.0",
     "hapi": "^16.0.1",
     "is": "^3.1.0",
+    "knex": "^0.12.6",
     "lodash": "^4.16.2",
     "ms-amqp-transport": "^7.0.1",
     "ms-conf": "^2.3.0",
     "ms-validation": "^3.0.0",
-    "mservice": "^4.3.0"
+    "mservice": "^4.7.4",
+    "pg": "^6.1.0"
   },
   "devDependencies": {
     "apidoc": "^0.16.1",

@@ -45,9 +45,9 @@ describe('polls.create', function suite() {
   });
 
   it('should be able to return error if invalid role', () => {
-    const body = {};
+    const headers = authHeader(this.userToken);
 
-    return http({ body, headers: authHeader(this.userToken) })
+    return http({ headers })
       .then(({ body }) => {
         assert.equal(body.statusCode, 403);
         assert.equal(body.message, 'An attempt was made to perform an operation that is not'
