@@ -1,6 +1,7 @@
 const assert = require('assert');
 const { auth: authHelper, authHeader } = require('../helpers/auth');
 const config = require('../configs/service');
+const { isISODate } = require('../helpers/date');
 const Polls = require('../../src');
 const request = require('request-promise');
 
@@ -56,11 +57,25 @@ describe('polls.create', function suite() {
   });
 
   it('should be able to create poll', () => {
-    const body = {};
+    const body = {
+      title: 'What is your favorite food?',
+      ownerId: 'jamie@oliver.com',
+    };
 
     return http({ body, headers: authHeader(this.rootToken) })
-      .then((response) => {
-        console.log(response.body);
+      .then(({ body }) => {
+        const { id, type, attributes } = body;
+        assert.ok(Number.isInteger(id));
+        assert.equal(type, 'poll');
+        assert.equal(attributes.title, 'What is your favorite food?');
+        assert.equal(attributes.ownerId, 'jamie@oliver.com');
+        assert.equal(attributes.state, 0);
+        assert.equal(attributes.minAnswersCount, 1);
+        assert.equal(attributes.maxAnswersCount, 1);
+        assert.equal(attributes.startedAt, null);
+        assert.equal(attributes.endedAt, null);
+        assert.ok(isISODate(attributes.createdAt));
+        assert.ok(isISODate(attributes.updatedAt));
       });
   });
 });

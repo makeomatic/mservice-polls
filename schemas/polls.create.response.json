@@ -1,4 +1,4 @@
 {
   "id": "polls.create.response",
-  "type": "object"
+  "$ref": "polls.json#/definitions/response"
 }
