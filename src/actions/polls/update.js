@@ -20,10 +20,10 @@ function updatePollAction(request) {
 
   return poll
     .save(params)
+    .then(modelResponse)
     .tap(updatedPoll =>
-      serviceBroadcast.fire(POLL_UPDATED, updatedPoll.toJSON(), updatedPoll.get('ownerId'))
-    )
-    .then(modelResponse);
+      serviceBroadcast.fire(POLL_UPDATED, updatedPoll, updatedPoll.data.attributes.ownerId)
+    );
 }
 
 function allowed(request) {

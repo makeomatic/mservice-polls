@@ -1,4 +1,5 @@
 const { successResponse } = require('../../responses/success');
+const { modelResponse } = require('../../responses/polls');
 const fetcherFactory = require('../../plugins/fetcher/factory');
 const { NotPermittedError } = require('common-errors');
 
@@ -20,8 +21,9 @@ function deletePollAction(request) {
 
   return poll
     .destroy()
+    .then(modelResponse)
     .tap(deletedPoll =>
-      serviceBroadcast.fire(POLL_DELETED, deletedPoll.toJSON(), deletedPoll.get('ownerId'))
+      serviceBroadcast.fire(POLL_DELETED, deletedPoll, deletedPoll.data.attributes.ownerId)
     )
     .then(successResponse);
 }

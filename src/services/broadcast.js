@@ -20,6 +20,7 @@ class Broadcast {
 Broadcast.events = {
   POLL_UPDATED: 'pollUpdated',
   POLL_DELETED: 'pollDeleted',
+  POLL_STARTED: 'pollStarted',
 };
 
 module.exports = Broadcast;

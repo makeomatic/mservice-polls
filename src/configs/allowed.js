@@ -10,6 +10,7 @@ module.exports = {
       create: ['root'],
       update: ['root'],
       delete: ['root'],
+      start: ['root'],
     },
   },
 };
