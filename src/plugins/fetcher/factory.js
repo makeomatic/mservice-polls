@@ -32,9 +32,10 @@ module.exports = function factory(modelName, options = {}) {
       throw new Errors.ArgumentError('model');
     }
 
+    const params = request.params ? request.params : request.query;
     const query = Object
       .keys(settings.key)
-      .reduce(keysReducer(settings.key, request.params), {});
+      .reduce(keysReducer(settings.key, params), {});
 
     return Model
       .forge(query)
