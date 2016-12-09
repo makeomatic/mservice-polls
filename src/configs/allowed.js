@@ -9,6 +9,7 @@ module.exports = {
     polls: {
       create: ['root'],
       update: ['root'],
+      delete: ['root'],
     },
   },
 };

@@ -1,2 +1,1 @@
-* auth
-* acl (парва из конфига и проверка)
+* tests: mock broadcasts
