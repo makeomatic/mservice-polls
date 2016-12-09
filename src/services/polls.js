@@ -10,6 +10,19 @@ class Polls {
 
     return poll.save();
   }
+
+  list(query) {
+    const { filter, page, sort } = query;
+
+    return this.Poll
+      .forge()
+      .where(filter)
+      .orderBy(sort)
+      .fetchPage({
+        pageSize: page.size,
+        page: page.number,
+      });
+  }
 }
 
 Polls.state = {

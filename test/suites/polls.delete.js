@@ -105,8 +105,8 @@ describe('polls.delete', function suite() {
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
-        const { success } = body;
-        assert.ok(success);
+        const { meta } = body;
+        assert.deepEqual(meta, { status: 'success' });
       });
   });
 

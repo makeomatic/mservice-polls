@@ -53,6 +53,7 @@
     "response": {
       "type": "object",
       "required": ["id", "type", "attributes"],
+      "description": "Poll response",
       "properties": {
         "id": {
           "$ref": "#/definitions/model/properties/id"
@@ -103,6 +104,24 @@
             "updatedAt": {
               "$ref": "#/definitions/model/properties/updatedAt"
             }
+          }
+        }
+      }
+    },
+    "collectionResponse": {
+      "additionalProperties": false,
+      "description": "Polls collection response",
+      "type": "object",
+      "required": ["meta", "data"],
+      "properties": {
+        "meta": {
+          "$ref": "common.json#/definitions/collectionResponseMeta"
+        },
+        "data": {
+          "description": "Collection of polls",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/response"
           }
         }
       }

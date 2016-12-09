@@ -108,7 +108,8 @@ describe('polls.update', function suite() {
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
-        const { id, type, attributes } = body;
+        const { id, type, attributes } = body.data;
+
         assert.ok(Number.isInteger(id));
         assert.equal(type, 'poll');
         assert.equal(attributes.title, 'What is your favorite food?');

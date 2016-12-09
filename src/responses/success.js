@@ -1,5 +1,7 @@
 function successResponse() {
-  return { success: true };
+  return {
+    meta: { status: 'success' },
+  };
 }
 
 module.exports = {

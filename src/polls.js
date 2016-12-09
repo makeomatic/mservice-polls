@@ -22,6 +22,7 @@ class Polls extends MService {
 
     // models
     const bookshelf = this.bookshelf = Bookshelf(this.knex);
+    bookshelf.plugin('pagination');
     bookshelf.plugin('registry');
     bookshelf.model('Poll', modelPoll);
 

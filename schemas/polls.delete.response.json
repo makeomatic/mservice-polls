@@ -1,4 +1,4 @@
 {
   "id": "polls.delete.response",
-  "$ref": "polls.json#/definitions/response"
+  "$ref": "common.json#/definitions/successResponse"
 }
