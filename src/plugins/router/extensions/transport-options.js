@@ -2,6 +2,11 @@ const { NotSupportedError } = require('common-errors');
 
 function postRequest(error, request, route) {
   const result = Promise.resolve([error, request, route]);
+
+  if (error) {
+    return result;
+  }
+
   const { method, transport, action } = request;
 
   if (action.transportsOptions === undefined) {

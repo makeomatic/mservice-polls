@@ -32,7 +32,8 @@ function tokenAuth({ headers }) {
     return amqp
       .publishAndWait(route, { token, audience }, { timeout })
       .then((response) => {
-        const user = new UserModel(response.metadata[audience]);
+        const { username, metadata } = response;
+        const user = new UserModel(username, metadata[audience]);
 
         return { user };
       });

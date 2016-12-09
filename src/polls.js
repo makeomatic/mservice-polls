@@ -5,6 +5,8 @@ const modelPoll = require('./models/poll');
 const { NotFoundError } = require('common-errors');
 const MService = require('mservice');
 const path = require('path');
+const ServiceAllowed = require('./services/allowed');
+const ServiceBroadcast = require('./services/broadcast');
 const ServicePolls = require('./services/polls');
 
 const { ConnectorsTypes } = MService;
@@ -25,7 +27,11 @@ class Polls extends MService {
 
     // services
     services.set(this, new Map());
+    this.service('allowed', new ServiceAllowed(this.config.allowed));
     this.service('polls', new ServicePolls(bookshelf));
+    this.on('plugin:connect:amqp', (amqp) => {
+      this.service('broadcast', new ServiceBroadcast(this.config.broadcast, amqp));
+    });
   }
 
   service(name, instance) {

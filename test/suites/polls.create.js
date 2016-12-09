@@ -57,12 +57,12 @@ describe('polls.create', function suite() {
   });
 
   it('should be able to create poll', () => {
-    const body = {
+    const payload = {
       title: 'What is your favorite food?',
       ownerId: 'jamie@oliver.com',
     };
 
-    return http({ body, headers: authHeader(this.rootToken) })
+    return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
         const { id, type, attributes } = body;
         assert.ok(Number.isInteger(id));

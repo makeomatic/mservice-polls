@@ -4,6 +4,11 @@ const { NotPermittedError } = require('common-errors');
 
 function postAuth(error, request) {
   const result = Promise.resolve([error, request]);
+
+  if (error) {
+    return result;
+  }
+
   const { route } = request;
   const { allowed } = this.config;
   const roles = get(allowed, route, []);

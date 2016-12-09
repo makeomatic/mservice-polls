@@ -5,7 +5,7 @@ class Polls {
 
   create(params) {
     const poll = new this.Poll(
-      Object.assign({ state: Polls.state.created, startedAt: null, endedAt: null }, params)
+      Object.assign({ state: Polls.state.CREATED, startedAt: null, endedAt: null }, params)
     );
 
     return poll.save();
@@ -13,11 +13,11 @@ class Polls {
 }
 
 Polls.state = {
-  created: 0,
-  started: 1,
-  stoped: 2,
-  ended: 3,
-  archived: 4,
+  CREATED: 0,
+  STARTED: 1,
+  STOPED: 2,
+  ENDED: 3,
+  ARCHIVED: 4,
 };
 
 module.exports = Polls;
