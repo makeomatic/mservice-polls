@@ -1,5 +1,4 @@
 const assert = require('assert');
-const { auth: authHelper, authHeader } = require('../helpers/auth');
 const config = require('../configs/service');
 const { isISODate } = require('../helpers/date');
 const Polls = require('../../src');

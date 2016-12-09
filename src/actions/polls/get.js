@@ -13,7 +13,7 @@ const fetcher = fetcherFactory('Poll');
  */
 function getPollAction(request) {
   const { model: poll } = request;
-  
+
   return modelResponse(poll);
 }
 
