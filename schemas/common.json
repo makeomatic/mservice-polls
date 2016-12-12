@@ -1,6 +1,46 @@
 {
   "id": "common.json",
   "definitions": {
-    
+    "successResponse": {
+      "description": "Success response",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["meta"],
+      "properties": {
+        "meta": {
+          "description": "Success metadata",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status"],
+          "properties": {
+            "status": {
+              "description": "Response status",
+              "type": "string",
+              "enum": ["success"]
+            }
+          }
+        }
+      }
+    },
+    "collectionResponseMeta": {
+      "description": "Collection response metadata",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count"],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "description": "Count of results"
+        },
+        "before": {
+          "type": "string",
+          "description": "Cursor for current query"
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Cursor for next query"
+        }
+      }
+    }
   }
 }

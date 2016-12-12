@@ -1,0 +1,130 @@
+{
+  "id": "polls.json",
+  "definitions": {
+    "model": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Identificator of the poll"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the poll"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Identificator of owner"
+        },
+        "state": {
+          "type": "string",
+          "description": "State of the poll"
+        },
+        "minAnswersCount": {
+          "type": "integer",
+          "description": "Minimum number of answers"
+        },
+        "maxAnswersCount": {
+          "type": "integer",
+          "description": "Maximum number of answers"
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of the poll"
+        },
+        "endedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End time of the poll"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation time of the poll"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Update time of the poll"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "required": ["id", "type", "attributes"],
+      "description": "Poll response",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/model/properties/id"
+        },
+        "type": {
+          "type": "string",
+          "description": "Model type",
+          "enum": ["poll"]
+        },
+        "attributes": {
+          "type": "object",
+          "required": [
+            "title",
+            "ownerId",
+            "state",
+            "minAnswersCount",
+            "maxAnswersCount",
+            "startedAt",
+            "endedAt",
+            "createdAt",
+            "updatedAt"
+          ],
+          "properties": {
+            "title": {
+              "$ref": "#/definitions/model/properties/title"
+            },
+            "ownerId": {
+              "$ref": "#/definitions/model/properties/ownerId"
+            },
+            "state": {
+              "$ref": "#/definitions/model/properties/state"
+            },
+            "minAnswersCount": {
+              "$ref": "#/definitions/model/properties/minAnswersCount"
+            },
+            "maxAnswersCount": {
+              "$ref": "#/definitions/model/properties/maxAnswersCount"
+            },
+            "startedAt": {
+              "$ref": "#/definitions/model/properties/startedAt"
+            },
+            "endedAt": {
+              "$ref": "#/definitions/model/properties/endedAt"
+            },
+            "createdAt": {
+              "$ref": "#/definitions/model/properties/createdAt"
+            },
+            "updatedAt": {
+              "$ref": "#/definitions/model/properties/updatedAt"
+            }
+          }
+        }
+      }
+    },
+    "collectionResponse": {
+      "additionalProperties": false,
+      "description": "Polls collection response",
+      "type": "object",
+      "required": ["meta", "data"],
+      "properties": {
+        "meta": {
+          "$ref": "common.json#/definitions/collectionResponseMeta"
+        },
+        "data": {
+          "description": "Collection of polls",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/response"
+          }
+        }
+      }
+    }
+  }
+}

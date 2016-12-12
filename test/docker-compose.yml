@@ -1,5 +1,12 @@
 version: '2'
 services:
+  postgres:
+    expose:
+      - "5432"
+    image: postgres:9.5.4
+    container_name: pg
+    hostname: pg
+
   rabbitmq:
       expose:
         - "4369"
@@ -12,11 +19,68 @@ services:
       volumes:
         - ./configs/rabbitmq/rabbitmq.config:/usr/lib/rabbitmq/etc/rabbitmq/rabbitmq.config
 
+  redis-1:
+    expose:
+      - "6379"
+      - "16379"
+    container_name: redis-1
+    image: makeomatic/alpine-redis
+    hostname: redis-1
+
+  redis-2:
+    expose:
+      - "6379"
+      - "16379"
+    container_name: redis-2
+    hostname: redis-2
+    image: makeomatic/alpine-redis
+
+  redis-3:
+    expose:
+      - "6379"
+      - "16379"
+    container_name: redis-3
+    image: makeomatic/alpine-redis
+    hostname: redis-3
+
+  redis-client:
+    links:
+      - redis-1
+      - redis-2
+      - redis-3
+    container_name: redis-client
+    image: makeomatic/redis-trib
+    hostname: redis-client
+    environment:
+      - REDIS_1=redis-1
+      - REDIS_2=redis-2
+      - REDIS_3=redis-3
+
+  ms-users:
+    links:
+      - redis-1
+      - redis-2
+      - redis-3
+      - rabbitmq
+      - redis-client
+    image: makeomatic/ms-users:7.2.0
+    hostname: ms-users
+    container_name: ms-users
+    volumes:
+      - ${PWD}/test/configs:/src/configs:ro
+    environment:
+      DEBUG: 'ioredis:*'
+      NODE_ENV: 'production'
+      NCONF_FILE_PATH: '["/src/configs/ms-users/config.js"]'
+      MS_USERS__LOGGER: 'true'
+      MS_USERS__INIT_ADMIN_ACCOUNTS_DELAY: '1'
+
   tester:
     container_name: tester
-    image: makeomatic/node:7.1.0-tester
+    image: makeomatic/node:7.2.0-tester
     links:
       - rabbitmq
+      - postgres
     working_dir: /src
     volumes:
       - ${PWD}:/src

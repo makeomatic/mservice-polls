@@ -1,0 +1,20 @@
+{
+  "id": "polls.update.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "$ref": "polls.json#/definitions/model/properties/id"
+    },
+    "title": {
+      "$ref": "polls.json#/definitions/model/properties/title"
+    },
+    "minAnswersCount": {
+      "$ref": "polls.json#/definitions/model/properties/minAnswersCount"
+    },
+    "maxAnswersCount": {
+      "$ref": "polls.json#/definitions/model/properties/maxAnswersCount"
+    }
+  }
+}

@@ -6,8 +6,5 @@ module.exports = {
         port: 5672,
       },
     },
-    router: {
-      enabled: true,
-    },
   },
 };
