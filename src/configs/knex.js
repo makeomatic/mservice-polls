@@ -5,7 +5,7 @@ module.exports = {
     client: 'pg',
     connection: 'postgres://postgres@pg:5432/postgres',
     migrations: {
-      tableName: 'migrations',
+      tableName: 'migrations-polls',
       directory: path.resolve(__dirname, '../migrations'),
     },
   },

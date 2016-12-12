@@ -7,7 +7,7 @@ function auth(username, password) {
 }
 
 function authHeader(token) {
-  return { Authorization: `Bearer ${token}` };
+  return { Authorization: `JWT ${token}` };
 }
 
 module.exports = {

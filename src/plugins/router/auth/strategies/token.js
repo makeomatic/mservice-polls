@@ -8,7 +8,7 @@ function getAuthToken(authHeader) {
     throw new AuthenticationRequiredError('Auth type must be present');
   }
 
-  if (auth !== 'Bearer') {
+  if (auth !== 'JWT') {
     throw new AuthenticationRequiredError(`Invalid auth type ${auth}`);
   }
 
