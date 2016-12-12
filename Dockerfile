@@ -14,9 +14,9 @@ RUN apk --no-cache add --virtual .buildDeps \
     curl \
     openssl
 
-# RUN npm install --production
+RUN npm install --production
 
-RUN npm dedupe
+# RUN npm dedupe
 
 RUN apk del \
     .buildDeps \
