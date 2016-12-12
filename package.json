@@ -1,7 +1,7 @@
 {
-  "name": "mservice-starter-kit",
-  "description": "Starter kit for mservice. Just clone it.",
-  "main": "./lib/index.js",
+  "name": "mservice-polls",
+  "description": "Micro service for handling polls",
+  "main": "./src/index.js",
   "scripts": {
     "doc": "cd schemas && apidoc -i ./../src/actions -v -o ./../docs",
     "docker-release": "./docker-release.sh",
@@ -65,6 +65,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "version": "0.0.0-development"
+  }
 }

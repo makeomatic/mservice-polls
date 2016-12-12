@@ -6,19 +6,23 @@ ENV NCONF_NAMESPACE=MSERVICE_POLLS \
 WORKDIR /src
 
 COPY package.json .
-RUN \
-  apk --no-cache add --virtual .buildDeps \
+
+RUN apk --no-cache add --virtual .buildDeps \
     build-base \
     python \
     git \
     curl \
-    openssl \
-  && npm install --production \
-  && npm dedupe \
-  && apk del \
+    openssl
+
+# RUN npm install --production
+
+RUN npm dedupe
+
+RUN apk del \
     .buildDeps \
-    wget \
-  && rm -rf \
+    wget
+
+RUN rm -rf \
     /tmp/* \
     /root/.node-gyp \
     /root/.npm
