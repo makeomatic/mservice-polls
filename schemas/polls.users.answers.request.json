@@ -1,0 +1,12 @@
+{
+  "id": "polls.users.answers.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "\\d+"
+    }
+  }
+}

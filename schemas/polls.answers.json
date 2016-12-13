@@ -84,6 +84,42 @@
           "$ref": "#/definitions/responseObject"
         }
       }
+    },
+    "collectionResponseWithVotesCount": {
+      "type": "object",
+      "required": ["data", "meta"],
+      "properties": {
+        "meta": {
+          "type": "object",
+          "required": ["answers"],
+          "properties": {
+            "answers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["id", "votesCount", "userAnswered"],
+                "properties": {
+                  "id": {
+                    "$ref": "#/definitions/model/properties/id"
+                  },
+                  "votesCount": {
+                    "type": "integer"
+                  },
+                  "userAnswered": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/responseObject"
+          }
+        }
+      }
     }
   }
 }
