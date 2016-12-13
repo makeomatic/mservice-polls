@@ -3,10 +3,10 @@ exports.up = knex =>
     .createTable('polls', (table) => {
       table.increments('id');
       table.string('title').notNullable();
-      table.string('ownerId').notNullable();
+      table.string('ownerId').index().notNullable();
       table.integer('state').notNullable();
-      table.integer('minAnswersCount').notNullable();
-      table.integer('maxAnswersCount').notNullable();
+      table.integer('minUserAnswersCount').notNullable();
+      table.integer('maxUserAnswersCount').notNullable();
       table.dateTime('startedAt');
       table.dateTime('endedAt');
       table.dateTime('createdAt').notNullable();

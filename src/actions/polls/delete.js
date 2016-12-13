@@ -3,7 +3,7 @@ const { modelResponse } = require('../../responses/polls');
 const fetcherFactory = require('../../plugins/fetcher/factory');
 const { NotPermittedError } = require('common-errors');
 
-const fetcher = fetcherFactory('Poll');
+const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
 
 /**
  * @api {http.post} <prefix>.polls.delete Delete the poll

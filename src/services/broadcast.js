@@ -21,6 +21,9 @@ Broadcast.events = {
   POLL_UPDATED: 'pollUpdated',
   POLL_DELETED: 'pollDeleted',
   POLL_STARTED: 'pollStarted',
+  POLL_ANSWER_CREATED: 'pollAnswerCreated',
+  POLL_ANSWER_UPDATED: 'pollAnswerUpdated',
+  POLL_ANSWER_DELETED: 'pollAnswerDeleted',
 };
 
 module.exports = Broadcast;

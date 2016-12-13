@@ -7,6 +7,11 @@ module.exports = {
       },
     },
     polls: {
+      answers: {
+        create: ['root'],
+        update: ['root'],
+        delete: ['root'],
+      },
       create: ['root'],
       update: ['root'],
       delete: ['root'],

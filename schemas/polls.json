@@ -20,13 +20,20 @@
           "type": "string",
           "description": "State of the poll"
         },
-        "minAnswersCount": {
+        "minUserAnswersCount": {
           "type": "integer",
           "description": "Minimum number of answers"
         },
-        "maxAnswersCount": {
+        "maxUserAnswersCount": {
           "type": "integer",
           "description": "Maximum number of answers"
+        },
+        "answers": {
+          "type": "array",
+          "description": "Poll answers",
+          "items": {
+            "$ref": "polls.answers.json#/definitions/model"
+          }
         },
         "startedAt": {
           "type": "string",
@@ -50,9 +57,9 @@
         }
       }
     },
-    "response": {
+    "responseObject": {
       "type": "object",
-      "required": ["id", "type", "attributes"],
+      "required": ["id", "type", "attributes", "relationships"],
       "description": "Poll response",
       "properties": {
         "id": {
@@ -69,8 +76,8 @@
             "title",
             "ownerId",
             "state",
-            "minAnswersCount",
-            "maxAnswersCount",
+            "minUserAnswersCount",
+            "maxUserAnswersCount",
             "startedAt",
             "endedAt",
             "createdAt",
@@ -86,11 +93,11 @@
             "state": {
               "$ref": "#/definitions/model/properties/state"
             },
-            "minAnswersCount": {
-              "$ref": "#/definitions/model/properties/minAnswersCount"
+            "minUserAnswersCount": {
+              "$ref": "#/definitions/model/properties/minUserAnswersCount"
             },
-            "maxAnswersCount": {
-              "$ref": "#/definitions/model/properties/maxAnswersCount"
+            "maxUserAnswersCount": {
+              "$ref": "#/definitions/model/properties/maxUserAnswersCount"
             },
             "startedAt": {
               "$ref": "#/definitions/model/properties/startedAt"
@@ -105,6 +112,38 @@
               "$ref": "#/definitions/model/properties/updatedAt"
             }
           }
+        },
+        "relationships": {
+          "type": "object",
+          "description": "Relations of poll",
+          "required": ["answers"],
+          "properties": {
+            "answers": {
+              "type": "object",
+              "description": "Answers relation",
+              "required": ["data"],
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "description": "Answers of poll",
+                  "items": {
+                    "$ref": "polls.answers.json#/definitions/response"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "additionalProperties": false,
+      "description": "Response of poll",
+      "type": "object",
+      "required": ["data"],
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/responseObject"
         }
       }
     },
@@ -121,7 +160,7 @@
           "description": "Collection of polls",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/response"
+            "$ref": "#/definitions/responseObject"
           }
         }
       }

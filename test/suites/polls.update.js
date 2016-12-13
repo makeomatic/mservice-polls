@@ -22,8 +22,8 @@ describe('polls.update', function suite() {
     const params = {
       title: 'What is your favorite cat?',
       ownerId: 'owner@poll.com',
-      minAnswersCount: 1,
-      maxAnswersCount: 1,
+      minUserAnswersCount: 1,
+      maxUserAnswersCount: 1,
     };
 
     return polls
@@ -108,15 +108,16 @@ describe('polls.update', function suite() {
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
-        const { id, type, attributes } = body.data;
+        const { id, type, attributes, relations: { answers } } = body.data;
 
         assert.ok(Number.isInteger(id));
         assert.equal(type, 'poll');
         assert.equal(attributes.title, 'What is your favorite food?');
         assert.equal(attributes.ownerId, 'owner@poll.com');
         assert.equal(attributes.state, 0);
-        assert.equal(attributes.minAnswersCount, 1);
-        assert.equal(attributes.maxAnswersCount, 1);
+        assert.equal(attributes.minUserAnswersCount, 1);
+        assert.equal(attributes.maxUserAnswersCount, 1);
+        assert.deepEqual(answers.data, []);
         assert.equal(attributes.startedAt, null);
         assert.equal(attributes.endedAt, null);
         assert.ok(isISODate(attributes.createdAt));
@@ -129,8 +130,8 @@ describe('polls.update', function suite() {
     const params = {
       title: 'What is your favorite cat?',
       ownerId: 'owner@poll.com',
-      minAnswersCount: 1,
-      maxAnswersCount: 1,
+      minUserAnswersCount: 1,
+      maxUserAnswersCount: 1,
       state: servicePolls.constructor.state.ENDED,
     };
 

@@ -64,15 +64,16 @@ describe('polls.create', function suite() {
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
-        const { id, type, attributes } = body.data;
+        const { id, type, attributes, relations: { answers } } = body.data;
 
         assert.ok(Number.isInteger(id));
         assert.equal(type, 'poll');
         assert.equal(attributes.title, 'What is your favorite food?');
         assert.equal(attributes.ownerId, 'jamie@oliver.com');
         assert.equal(attributes.state, 0);
-        assert.equal(attributes.minAnswersCount, 1);
-        assert.equal(attributes.maxAnswersCount, 1);
+        assert.equal(attributes.minUserAnswersCount, 1);
+        assert.equal(attributes.maxUserAnswersCount, 1);
+        assert.deepEqual(answers.data, []);
         assert.equal(attributes.startedAt, null);
         assert.equal(attributes.endedAt, null);
         assert.ok(isISODate(attributes.createdAt));

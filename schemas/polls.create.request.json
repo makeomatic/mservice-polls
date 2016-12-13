@@ -2,7 +2,7 @@
   "id": "polls.create.request",
   "type": "object",
   "additionalProperties": false,
-  "required": ["title", "ownerId", "minAnswersCount", "maxAnswersCount"],
+  "required": ["title", "ownerId", "minUserAnswersCount", "maxUserAnswersCount"],
   "properties": {
     "title": {
       "$ref": "polls.json#/definitions/model/properties/title"
@@ -10,12 +10,12 @@
     "ownerId": {
       "$ref": "polls.json#/definitions/model/properties/ownerId"
     },
-    "minAnswersCount": {
-      "$ref": "polls.json#/definitions/model/properties/minAnswersCount",
+    "minUserAnswersCount": {
+      "$ref": "polls.json#/definitions/model/properties/minUserAnswersCount",
       "default": 1
     },
-    "maxAnswersCount": {
-      "$ref": "polls.json#/definitions/model/properties/maxAnswersCount",
+    "maxUserAnswersCount": {
+      "$ref": "polls.json#/definitions/model/properties/maxUserAnswersCount",
       "default": 1
     }
   }

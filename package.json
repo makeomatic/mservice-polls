@@ -24,6 +24,7 @@
   "dependencies": {
     "bluebird": "^3.4.6",
     "bookshelf": "^0.10.2",
+    "bookshelf-cascade-delete": "aleksandrsorokin/bookshelf-cascade-delete",
     "bunyan": "^1.8.1",
     "common-errors": "^1.0.0",
     "hapi": "^16.0.1",
@@ -34,7 +35,7 @@
     "ms-conf": "^2.3.0",
     "ms-validation": "^3.0.0",
     "mservice": "^4.8.0",
-    "pg": "^6.1.0",
+    "pg": "^6.1.1",
     "qs": "^6.3.0"
   },
   "devDependencies": {
@@ -43,8 +44,8 @@
     "chance": "^1.0.4",
     "codecov": "^1.0.1",
     "cz-conventional-changelog": "^1.2.0",
-    "eslint": "^3.7.0",
-    "eslint-config-airbnb-base": "^10.0.1",
+    "eslint": "^3.12.1",
+    "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-import": "^2.0.0",
     "eslint-plugin-json": "^1.2.0",
     "eslint-plugin-mocha": "^4.6.0",

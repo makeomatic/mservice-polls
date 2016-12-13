@@ -1,10 +1,15 @@
-const omit = require('lodash/omit');
+const { modelResponse: answerResponse } = require('./answers');
 
 function transform(poll) {
   return {
     id: poll.get('id'),
     type: 'poll',
-    attributes: omit(poll.omit('id')),
+    attributes: poll.omit('id'),
+    relations: {
+      answers: {
+        data: poll.related('answers').map(answerResponse).map(response => response.data),
+      },
+    },
   };
 }
 

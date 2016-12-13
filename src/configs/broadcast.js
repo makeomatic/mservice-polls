@@ -1,6 +1,6 @@
 module.exports = {
   broadcast: {
-    enabled: true,
+    enabled: false,
     ttl: 2000,
     route: 'broadcast.action',
   },

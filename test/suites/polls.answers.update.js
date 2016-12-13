@@ -6,7 +6,7 @@ const Polls = require('../../src');
 const request = require('request-promise');
 
 const http = request.defaults({
-  uri: 'http://localhost:3000/api/polls/start',
+  uri: 'http://localhost:3000/api/polls/answers/update',
   simple: false,
   resolveWithFullResponse: true,
   json: true,
@@ -15,10 +15,10 @@ const http = request.defaults({
 
 const polls = new Polls(config);
 
-describe('polls.start', function suite() {
+describe('polls.answers.update', function suite() {
   before('start up service', () => polls.connect());
 
-  before('create poll with state created', () => {
+  before('create poll', () => {
     const params = {
       title: 'What is your favorite cat?',
       ownerId: 'owner@poll.com',
@@ -29,37 +29,19 @@ describe('polls.start', function suite() {
     return polls
       .service('polls')
       .create(params)
-      .tap(poll => (this.createdPoll = poll));
+      .tap(poll => (this.poll = poll));
   });
 
-  before('create poll with state started', () => {
+  before('create answer', () => {
     const params = {
       title: 'What is your favorite cat?',
-      ownerId: 'owner@poll.com',
-      minUserAnswersCount: 1,
-      maxUserAnswersCount: 1,
-      state: polls.service('polls').constructor.state.STARTED,
+      pollId: this.poll.get('id'),
     };
 
     return polls
-      .service('polls')
+      .service('answers')
       .create(params)
-      .tap(poll => (this.startedPoll = poll));
-  });
-
-  before('create poll with state stoped', () => {
-    const params = {
-      title: 'What is your favorite cat?',
-      ownerId: 'owner@poll.com',
-      minUserAnswersCount: 1,
-      maxUserAnswersCount: 1,
-      state: polls.service('polls').constructor.state.STOPED,
-    };
-
-    return polls
-      .service('polls')
-      .create(params)
-      .tap(poll => (this.stopedPoll = poll));
+      .tap(answer => (this.answer = answer));
   });
 
   before('login admin', () =>
@@ -84,7 +66,7 @@ describe('polls.start', function suite() {
 
   it('should be able to return error if invalid method', () => {
     const params = {
-      uri: 'http://localhost:3000/api/polls/start',
+      uri: 'http://localhost:3000/api/polls/answers/update',
       simple: false,
       resolveWithFullResponse: true,
       json: true,
@@ -111,7 +93,7 @@ describe('polls.start', function suite() {
 
   it('should be able to return error if has not access', () => {
     const headers = authHeader(this.secondRootToken);
-    const payload = { id: this.createdPoll.get('id') };
+    const payload = { id: this.answer.get('id'), title: 'What is your favorite food?' };
 
     return http({ headers, body: payload })
       .then(({ body }) => {
@@ -123,68 +105,71 @@ describe('polls.start', function suite() {
 
   it('should be able to return error if invalid params', () => {
     const headers = authHeader(this.rootToken);
-    const payload = { id: this.createdPoll.get('id'), ownerId: 'owner@id.com' };
+    const payload = { pollId: this.poll.get('id'), title: 'foo', id: this.answer.get('id') };
 
     return http({ headers, body: payload })
       .then(({ body }) => {
         assert.equal(body.statusCode, 400);
-        assert.equal(body.message, 'polls.start.request validation failed: data should NOT'
+        assert.equal(body.message, 'polls.answers.update.request validation failed: data should NOT'
           + ' have additional properties');
       });
   });
 
-  it('should be able to start poll with status created', () => {
-    const payload = { id: this.createdPoll.get('id') };
+  it('should be able to update the answer of the poll', () => {
+    const payload = {
+      id: this.answer.get('id'),
+      title: 'What is your favorite food?',
+      position: 1,
+    };
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
-        const { id, type, attributes, relations: { answers } } = body.data;
+        const { id, type, attributes } = body.data;
 
         assert.ok(Number.isInteger(id));
-        assert.equal(type, 'poll');
-        assert.equal(attributes.title, 'What is your favorite cat?');
-        assert.equal(attributes.ownerId, 'owner@poll.com');
-        assert.equal(attributes.state, 1);
-        assert.equal(attributes.minUserAnswersCount, 1);
-        assert.equal(attributes.maxUserAnswersCount, 1);
-        assert.deepEqual(answers.data, []);
-        assert.equal(attributes.startedAt, null);
-        assert.equal(attributes.endedAt, null);
+        assert.equal(type, 'pollAnswer');
+        assert.equal(attributes.title, 'What is your favorite food?');
+        assert.equal(attributes.pollId, this.poll.get('id'));
+        assert.equal(attributes.position, 1);
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));
       });
   });
 
-  it('should be able to start poll with status stoped', () => {
-    const payload = { id: this.stopedPoll.get('id') };
+  it('should be able to return error if poll ended', () => {
+    const params = {
+      title: 'What is your favorite cat?',
+      ownerId: 'owner@poll.com',
+      minUserAnswersCount: 1,
+      maxUserAnswersCount: 1,
+      state: polls.service('polls').constructor.state.ENDED,
+    };
 
-    return http({ body: payload, headers: authHeader(this.rootToken) })
-      .then(({ body }) => {
-        const { id, type, attributes, relations: { answers } } = body.data;
+    return polls
+      .service('polls')
+      .create(params)
+      .then((poll) => {
+        const answersParams = {
+          title: 'What is your favorite cat?',
+          pollId: poll.get('id'),
+        };
 
-        assert.ok(Number.isInteger(id));
-        assert.equal(type, 'poll');
-        assert.equal(attributes.title, 'What is your favorite cat?');
-        assert.equal(attributes.ownerId, 'owner@poll.com');
-        assert.equal(attributes.state, 1);
-        assert.equal(attributes.minUserAnswersCount, 1);
-        assert.equal(attributes.maxUserAnswersCount, 1);
-        assert.deepEqual(answers.data, []);
-        assert.equal(attributes.startedAt, null);
-        assert.equal(attributes.endedAt, null);
-        assert.ok(isISODate(attributes.createdAt));
-        assert.ok(isISODate(attributes.updatedAt));
-      });
-  });
+        return polls.service('answers').create(answersParams);
+      })
+      .then((answer) => {
+        const headers = authHeader(this.rootToken);
+        const payload = {
+          id: answer.get('id'),
+          title: 'What is your favorite food?',
+          position: 1,
+        };
 
-  it('should not be able to start poll with status started', () => {
-    const payload = { id: this.startedPoll.get('id') };
-
-    return http({ body: payload, headers: authHeader(this.rootToken) })
+        return http({ headers, body: payload });
+      })
       .then(({ body }) => {
         assert.equal(body.statusCode, 403);
-        assert.equal(body.message, 'An attempt was made to perform an operation that is not '
-          + 'permitted: Can\'t start poll that have started or have ended');
+        assert.equal(body.message, 'An attempt was made to perform an operation that is not'
+          + ' permitted: Can\'t modify poll that have ended');
       });
   });
 });
