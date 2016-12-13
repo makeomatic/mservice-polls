@@ -16,6 +16,7 @@ module.exports = {
       update: ['root'],
       delete: ['root'],
       start: ['root'],
+      vote: [],
     },
   },
 };
