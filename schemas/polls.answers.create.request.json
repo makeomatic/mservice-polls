@@ -1,0 +1,18 @@
+{
+  "id": "polls.answers.create.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["pollId", "title"],
+  "properties": {
+    "pollId": {
+      "$ref": "polls.answers.json#/definitions/model/properties/pollId"
+    },
+    "title": {
+      "$ref": "polls.answers.json#/definitions/model/properties/title"
+    },
+    "position": {
+      "$ref": "polls.answers.json#/definitions/model/properties/position",
+      "default": 0
+    }
+  }
+}

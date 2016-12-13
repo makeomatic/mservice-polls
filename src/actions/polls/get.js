@@ -1,7 +1,7 @@
 const { modelResponse } = require('../../responses/polls');
 const fetcherFactory = require('../../plugins/fetcher/factory');
 
-const fetcher = fetcherFactory('Poll');
+const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
 
 /**
  * @api {http.get} <prefix>.polls.get Get the poll

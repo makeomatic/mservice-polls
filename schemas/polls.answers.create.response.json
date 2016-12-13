@@ -1,0 +1,4 @@
+{
+  "id": "polls.answers.create.response",
+  "$ref": "polls.answers.json#/definitions/response"
+}

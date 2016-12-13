@@ -5,7 +5,7 @@ const Polls = require('../../src');
 const request = require('request-promise');
 
 const http = request.defaults({
-  uri: 'http://localhost:3000/api/polls/delete',
+  uri: 'http://localhost:3000/api/polls/answers/delete',
   simple: false,
   resolveWithFullResponse: true,
   json: true,
@@ -14,7 +14,7 @@ const http = request.defaults({
 
 const polls = new Polls(config);
 
-describe('polls.delete', function suite() {
+describe('polls.answers.delete', function suite() {
   before('start up service', () => polls.connect());
 
   before('create poll', () => {
@@ -29,6 +29,18 @@ describe('polls.delete', function suite() {
       .service('polls')
       .create(params)
       .tap(poll => (this.poll = poll));
+  });
+
+  before('create answer', () => {
+    const params = {
+      title: 'What is your favorite cat?',
+      pollId: this.poll.get('id'),
+    };
+
+    return polls
+      .service('answers')
+      .create(params)
+      .tap(answer => (this.answer = answer));
   });
 
   before('login admin', () =>
@@ -53,7 +65,7 @@ describe('polls.delete', function suite() {
 
   it('should be able to return error if invalid method', () => {
     const params = {
-      uri: 'http://localhost:3000/api/polls/delete',
+      uri: 'http://localhost:3000/api/polls/answers/delete',
       simple: false,
       resolveWithFullResponse: true,
       json: true,
@@ -80,8 +92,9 @@ describe('polls.delete', function suite() {
 
   it('should be able to return error if has not access', () => {
     const headers = authHeader(this.secondRootToken);
+    const payload = { id: this.answer.get('id') };
 
-    return http({ headers, body: { id: this.poll.get('id') } })
+    return http({ headers, body: payload })
       .then(({ body }) => {
         assert.equal(body.statusCode, 403);
         assert.equal(body.message, 'An attempt was made to perform an operation that is not'
@@ -91,46 +104,57 @@ describe('polls.delete', function suite() {
 
   it('should be able to return error if invalid params', () => {
     const headers = authHeader(this.rootToken);
+    const payload = { pollId: this.poll.get('id'), id: this.answer.get('id') };
 
-    return http({ headers, body: { id: this.poll.get('id'), ownerId: 'owner@id.com' } })
+    return http({ headers, body: payload })
       .then(({ body }) => {
         assert.equal(body.statusCode, 400);
-        assert.equal(body.message, 'polls.delete.request validation failed: data should NOT'
+        assert.equal(body.message, 'polls.answers.delete.request validation failed: data should NOT'
           + ' have additional properties');
       });
   });
 
-  it('should be able to delete poll', () => {
-    const payload = { id: this.poll.get('id') };
+  it('should be able to delete the answer of the poll', () => {
+    const payload = { id: this.answer.get('id') };
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
         const { meta } = body;
+
         assert.deepEqual(meta, { status: 'success' });
       });
   });
 
-  it('should be able to return error if poll started', () => {
-    const servicePolls = polls.service('polls');
+  it('should be able to return error if poll ended', () => {
     const params = {
       title: 'What is your favorite cat?',
       ownerId: 'owner@poll.com',
       minUserAnswersCount: 1,
       maxUserAnswersCount: 1,
-      state: servicePolls.constructor.state.STARTED,
+      state: polls.service('polls').constructor.state.ENDED,
     };
 
-    return servicePolls
+    return polls
+      .service('polls')
       .create(params)
       .then((poll) => {
-        const headers = authHeader(this.rootToken);
+        const answersParams = {
+          title: 'What is your favorite cat?',
+          pollId: poll.get('id'),
+        };
 
-        return http({ headers, body: { id: poll.get('id') } });
+        return polls.service('answers').create(answersParams);
+      })
+      .then((answer) => {
+        const headers = authHeader(this.rootToken);
+        const payload = { id: answer.get('id') };
+
+        return http({ headers, body: payload });
       })
       .then(({ body }) => {
         assert.equal(body.statusCode, 403);
         assert.equal(body.message, 'An attempt was made to perform an operation that is not'
-          + ' permitted: Can\'t delete poll that have started');
+          + ' permitted: Can\'t modify poll that have ended');
       });
   });
 });

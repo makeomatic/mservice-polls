@@ -1,0 +1,17 @@
+{
+  "id": "polls.answers.update.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "$ref": "polls.answers.json#/definitions/model/properties/id"
+    },
+    "title": {
+      "$ref": "polls.answers.json#/definitions/model/properties/title"
+    },
+    "position": {
+      "$ref": "polls.answers.json#/definitions/model/properties/position"
+    }
+  }
+}

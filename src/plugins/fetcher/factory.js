@@ -7,6 +7,7 @@ const defaultOptions = {
     id: 'id',
   },
   setTo: 'model',
+  relations: [],
 };
 
 const keysReducer = (keys, request) => (query, key) => {
@@ -39,7 +40,9 @@ module.exports = function factory(modelName, options = {}) {
 
     return Model
       .forge(query)
-      .fetch()
+      .fetch({
+        withRelated: settings.relations,
+      })
       .then((value) => {
         if (value === null && settings.require) {
           throw new Errors.NotFoundError(`Entity '${modelName}' not found`);

@@ -1,0 +1,11 @@
+{
+  "id": "polls.answers.delete.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "$ref": "polls.answers.json#/definitions/model/properties/id"
+    }
+  }
+}

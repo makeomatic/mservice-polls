@@ -10,11 +10,11 @@
     "title": {
       "$ref": "polls.json#/definitions/model/properties/title"
     },
-    "minAnswersCount": {
-      "$ref": "polls.json#/definitions/model/properties/minAnswersCount"
+    "minUserAnswersCount": {
+      "$ref": "polls.json#/definitions/model/properties/minUserAnswersCount"
     },
-    "maxAnswersCount": {
-      "$ref": "polls.json#/definitions/model/properties/maxAnswersCount"
+    "maxUserAnswersCount": {
+      "$ref": "polls.json#/definitions/model/properties/maxUserAnswersCount"
     }
   }
 }

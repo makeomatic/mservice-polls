@@ -21,6 +21,7 @@ class Polls {
       .fetchPage({
         pageSize: page.size,
         page: page.number,
+        withRelated: ['answers'],
       });
   }
 }

@@ -21,14 +21,26 @@ describe('polls.update', function suite() {
     const params = {
       title: 'What is your favorite cat?',
       ownerId: 'owner@poll.com',
-      minAnswersCount: 1,
-      maxAnswersCount: 1,
+      minUserAnswersCount: 1,
+      maxUserAnswersCount: 1,
     };
 
     return polls
       .service('polls')
       .create(params)
       .tap(poll => (this.poll = poll));
+  });
+
+  before('create answer', () => {
+    const params = {
+      title: 'What is your favorite cat?',
+      pollId: this.poll.get('id'),
+    };
+
+    return polls
+      .service('answers')
+      .create(params)
+      .tap(answer => (this.answer = answer));
   });
 
   after('shutdown service', () => polls.close());
@@ -64,19 +76,32 @@ describe('polls.update', function suite() {
 
     return http({ qs })
       .then(({ body }) => {
-        const { id, type, attributes } = body.data;
+        const { id, type, attributes, relations: { answers } } = body.data;
+        const answer = answers.data[0];
 
+        // id
         assert.equal(id, this.poll.get('id'));
+        // type
         assert.equal(type, 'poll');
+        // attributes
         assert.equal(attributes.title, 'What is your favorite cat?');
         assert.equal(attributes.ownerId, 'owner@poll.com');
         assert.equal(attributes.state, 0);
-        assert.equal(attributes.minAnswersCount, 1);
-        assert.equal(attributes.maxAnswersCount, 1);
+        assert.equal(attributes.minUserAnswersCount, 1);
+        assert.equal(attributes.maxUserAnswersCount, 1);
         assert.equal(attributes.startedAt, null);
         assert.equal(attributes.endedAt, null);
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));
+        // relations
+        assert.equal(answers.data.length, 1);
+        assert.equal(answer.id, this.answer.get('id'));
+        assert.equal(answer.type, 'pollAnswer');
+        assert.equal(answer.attributes.title, 'What is your favorite cat?');
+        assert.equal(answer.attributes.pollId, this.poll.get('id'));
+        assert.equal(answer.attributes.position, 0);
+        assert.ok(isISODate(answer.attributes.createdAt));
+        assert.ok(isISODate(answer.attributes.updatedAt));
       });
   });
 });

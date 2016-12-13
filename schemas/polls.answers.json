@@ -1,0 +1,89 @@
+{
+  "id": "polls.answers.json",
+  "definitions": {
+    "model": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Identificator of the answer"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the answer"
+        },
+        "pollId": {
+          "type": "integer",
+          "description": "Identificator of the poll"
+        },
+        "position": {
+          "type": "integer",
+          "description": "Position in list of answers"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation time of the answer"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Update time of the answer"
+        }
+      }
+    },
+    "responseObject": {
+      "type": "object",
+      "required": ["id", "type", "attributes"],
+      "description": "Answer response",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/model/properties/id"
+        },
+        "type": {
+          "type": "string",
+          "description": "Model type",
+          "enum": ["pollAnswer"]
+        },
+        "attributes": {
+          "type": "object",
+          "required": [
+            "title",
+            "pollId",
+            "position",
+            "createdAt",
+            "updatedAt"
+          ],
+          "properties": {
+            "title": {
+              "$ref": "#/definitions/model/properties/title"
+            },
+            "pollId": {
+              "$ref": "#/definitions/model/properties/pollId"
+            },
+            "position": {
+              "$ref": "#/definitions/model/properties/position"
+            },
+            "createdAt": {
+              "$ref": "#/definitions/model/properties/createdAt"
+            },
+            "updatedAt": {
+              "$ref": "#/definitions/model/properties/updatedAt"
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "additionalProperties": false,
+      "description": "Response of answer",
+      "type": "object",
+      "required": ["data"],
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/responseObject"
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 const assert = require('assert');
 const Chance = require('chance');
 const config = require('../configs/service');
+const { isISODate } = require('../helpers/date');
 const Polls = require('../../src');
 const Promise = require('bluebird');
 const request = require('request-promise');
@@ -23,8 +24,8 @@ describe('polls.list', function suite() {
   before('create polls', () => {
     const params = {
       title: 'What is your favorite cat?',
-      minAnswersCount: 1,
-      maxAnswersCount: 1,
+      minUserAnswersCount: 1,
+      maxUserAnswersCount: 1,
     };
 
     return Promise
@@ -37,6 +38,18 @@ describe('polls.list', function suite() {
         this.pollSecond = second;
         this.pollThird = third;
       });
+  });
+
+  before('create answer', () => {
+    const params = {
+      title: 'What is your favorite cat?',
+      pollId: this.pollFirst.get('id'),
+    };
+
+    return polls
+      .service('answers')
+      .create(params)
+      .tap(answer => (this.answer = answer));
   });
 
   after('shutdown service', () => polls.close());
@@ -78,7 +91,19 @@ describe('polls.list', function suite() {
 
     return http({ qs })
       .then(({ body }) => {
+        const answer = body.data[0].relations.answers.data[0];
+
+        // id
         assert.equal(body.data[0].id, this.pollFirst.get('id'));
+        // relations
+        assert.equal(body.data[0].relations.answers.data.length, 1);
+        assert.equal(answer.id, this.answer.get('id'));
+        assert.equal(answer.type, 'pollAnswer');
+        assert.equal(answer.attributes.title, 'What is your favorite cat?');
+        assert.equal(answer.attributes.pollId, this.pollFirst.get('id'));
+        assert.equal(answer.attributes.position, 0);
+        assert.ok(isISODate(answer.attributes.createdAt));
+        assert.ok(isISODate(answer.attributes.updatedAt));
       });
   });
 });
