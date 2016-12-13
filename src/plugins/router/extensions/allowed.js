@@ -11,9 +11,9 @@ function postAuth(error, request) {
 
   const { route } = request;
   const { allowed } = this.config;
-  const roles = get(allowed, route, []);
+  const roles = get(allowed, route, null);
 
-  if (roles.length === 0) {
+  if (roles === null) {
     return result;
   }
 

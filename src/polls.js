@@ -2,8 +2,9 @@ const Bookshelf = require('bookshelf');
 const cascadeDelete = require('bookshelf-cascade-delete');
 const { globFiles } = require('ms-conf/lib/load-config');
 const merge = require('lodash/merge');
-const modelPoll = require('./models/poll');
 const modelAnswer = require('./models/answer');
+const modelPoll = require('./models/poll');
+const modelUserAnswer = require('./models/user-answer');
 const { NotFoundError } = require('common-errors');
 const MService = require('mservice');
 const path = require('path');
@@ -11,6 +12,7 @@ const ServiceAllowed = require('./services/allowed');
 const ServiceAnswers = require('./services/answers');
 const ServiceBroadcast = require('./services/broadcast');
 const ServicePolls = require('./services/polls');
+const ServiceUsersAnswers = require('./services/users-answers');
 
 const { ConnectorsTypes } = MService;
 const defaultConfig = globFiles(path.resolve(__dirname, 'configs'));
@@ -28,14 +30,16 @@ class Polls extends MService {
     bookshelf.plugin(cascadeDelete);
     bookshelf.plugin('pagination');
     bookshelf.plugin('registry');
+    bookshelf.model('Answer', ...modelAnswer);
     bookshelf.model('Poll', ...modelPoll);
-    bookshelf.model('Answer', modelAnswer);
+    bookshelf.model('UserAnswer', modelUserAnswer);
 
     // services
     services.set(this, new Map());
     this.service('allowed', new ServiceAllowed(this.config.allowed));
     this.service('answers', new ServiceAnswers(bookshelf));
     this.service('polls', new ServicePolls(bookshelf));
+    this.service('usersAnswers', new ServiceUsersAnswers(bookshelf));
     this.on('plugin:connect:amqp', (amqp) => {
       this.service('broadcast', new ServiceBroadcast(this.config.broadcast, amqp));
     });

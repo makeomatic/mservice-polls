@@ -9,6 +9,10 @@ class User {
   }
 
   hasOneOfRoles(roles) {
+    if (roles.length === 0) {
+      return true;
+    }
+
     // eslint-disable-next-line no-restricted-syntax
     for (const role of roles) {
       if (this.hasRole(role)) {

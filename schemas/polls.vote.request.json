@@ -1,0 +1,18 @@
+{
+  "id": "polls.vote.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "answersIds"],
+  "properties": {
+    "id": {
+      "$ref": "polls.json#/definitions/model/properties/id"
+    },
+    "answersIds": {
+      "type": "array",
+      "description": "Identificators of answers",
+      "items": {
+        "$ref": "polls.answers.json#/definitions/model/properties/id"
+      }
+    }
+  }
+}
