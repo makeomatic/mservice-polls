@@ -1,4 +1,4 @@
 {
-  "id": "polls.vote.response",
+  "id": "polls.users.answers.response",
   "$ref": "polls.answers.json#/definitions/collectionResponseWithVotesCount"
 }
