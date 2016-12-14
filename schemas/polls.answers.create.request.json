@@ -13,6 +13,10 @@
     "position": {
       "$ref": "polls.answers.json#/definitions/model/properties/position",
       "default": 0
+    },
+    "meta": {
+      "$ref": "polls.answers.json#/definitions/model/properties/meta",
+      "default": {}
     }
   }
 }

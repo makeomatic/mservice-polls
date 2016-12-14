@@ -5,6 +5,7 @@ exports.up = knex =>
       table.string('title').notNullable();
       table.integer('pollId').index().references('polls.id').notNullable();
       table.integer('position').notNullable();
+      table.jsonb('meta').notNullable();
       table.dateTime('createdAt').notNullable();
       table.dateTime('updatedAt').notNullable();
     });

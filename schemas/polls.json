@@ -28,6 +28,10 @@
           "type": "integer",
           "description": "Maximum number of answers"
         },
+        "meta": {
+          "type": "object",
+          "description": "Meta of the poll"
+        },
         "answers": {
           "type": "array",
           "description": "Poll answers",
@@ -78,6 +82,7 @@
             "state",
             "minUserAnswersCount",
             "maxUserAnswersCount",
+            "meta",
             "startedAt",
             "endedAt",
             "createdAt",
@@ -98,6 +103,9 @@
             },
             "maxUserAnswersCount": {
               "$ref": "#/definitions/model/properties/maxUserAnswersCount"
+            },
+            "meta": {
+              "$ref": "#/definitions/model/properties/meta"
             },
             "startedAt": {
               "$ref": "#/definitions/model/properties/startedAt"

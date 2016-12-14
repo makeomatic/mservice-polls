@@ -5,7 +5,7 @@ class Answers {
 
   create(params) {
     const answer = new this.Answer(
-      Object.assign({ position: 0 }, params)
+      Object.assign({ position: 0, meta: {} }, params)
     );
 
     return answer.save();

@@ -7,6 +7,7 @@ exports.up = knex =>
       table.integer('state').notNullable();
       table.integer('minUserAnswersCount').notNullable();
       table.integer('maxUserAnswersCount').notNullable();
+      table.jsonb('meta').notNullable();
       table.dateTime('startedAt');
       table.dateTime('endedAt');
       table.dateTime('createdAt').notNullable();

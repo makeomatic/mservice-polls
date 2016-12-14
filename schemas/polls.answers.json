@@ -20,6 +20,10 @@
           "type": "integer",
           "description": "Position in list of answers"
         },
+        "meta": {
+          "type": "object",
+          "description": "Meta of the answer"
+        },
         "createdAt": {
           "type": "string",
           "format": "date-time",
@@ -51,6 +55,7 @@
             "title",
             "pollId",
             "position",
+            "meta",
             "createdAt",
             "updatedAt"
           ],
@@ -63,6 +68,9 @@
             },
             "position": {
               "$ref": "#/definitions/model/properties/position"
+            },
+            "meta": {
+              "$ref": "#/definitions/model/properties/meta"
             },
             "createdAt": {
               "$ref": "#/definitions/model/properties/createdAt"
