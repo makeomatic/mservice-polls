@@ -4,9 +4,11 @@ class Polls {
   }
 
   create(params) {
-    const poll = new this.Poll(
-      Object.assign({ state: Polls.state.CREATED, startedAt: null, endedAt: null }, params)
+    const attributes = Object.assign(
+      { state: Polls.state.CREATED, startedAt: null, endedAt: null, meta: {} },
+      params
     );
+    const poll = new this.Poll(attributes);
 
     return poll.save();
   }

@@ -36,6 +36,7 @@ describe('polls.answers.update', function suite() {
     const params = {
       title: 'What is your favorite cat?',
       pollId: this.poll.get('id'),
+      meta: { foo: 'bar' },
     };
 
     return polls
@@ -120,6 +121,7 @@ describe('polls.answers.update', function suite() {
       id: this.answer.get('id'),
       title: 'What is your favorite food?',
       position: 1,
+      meta: { bar: 'baz' },
     };
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
@@ -131,6 +133,7 @@ describe('polls.answers.update', function suite() {
         assert.equal(attributes.title, 'What is your favorite food?');
         assert.equal(attributes.pollId, this.poll.get('id'));
         assert.equal(attributes.position, 1);
+        assert.deepEqual(attributes.meta, { bar: 'baz' });
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));
       });

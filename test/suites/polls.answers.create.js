@@ -108,6 +108,7 @@ describe('polls.answers.create', function suite() {
       pollId: this.poll.get('id'),
       title: 'What is your favorite food?',
       position: 1,
+      meta: { foo: 'bar' },
     };
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
@@ -119,6 +120,7 @@ describe('polls.answers.create', function suite() {
         assert.equal(attributes.title, 'What is your favorite food?');
         assert.equal(attributes.pollId, this.poll.get('id'));
         assert.equal(attributes.position, 1);
+        assert.deepEqual(attributes.meta, { foo: 'bar' });
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));
       });

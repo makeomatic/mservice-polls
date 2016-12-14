@@ -17,6 +17,10 @@
     "maxUserAnswersCount": {
       "$ref": "polls.json#/definitions/model/properties/maxUserAnswersCount",
       "default": 1
+    },
+    "meta": {
+      "$ref": "polls.json#/definitions/model/properties/meta",
+      "default": {}
     }
   }
 }

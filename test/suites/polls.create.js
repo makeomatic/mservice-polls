@@ -60,6 +60,7 @@ describe('polls.create', function suite() {
     const payload = {
       title: 'What is your favorite food?',
       ownerId: 'jamie@oliver.com',
+      meta: { foo: 'bar' },
     };
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
@@ -73,6 +74,7 @@ describe('polls.create', function suite() {
         assert.equal(attributes.state, 0);
         assert.equal(attributes.minUserAnswersCount, 1);
         assert.equal(attributes.maxUserAnswersCount, 1);
+        assert.deepEqual(attributes.meta, { foo: 'bar' });
         assert.deepEqual(answers.data, []);
         assert.equal(attributes.startedAt, null);
         assert.equal(attributes.endedAt, null);

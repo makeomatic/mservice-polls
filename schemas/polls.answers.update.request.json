@@ -12,6 +12,10 @@
     },
     "position": {
       "$ref": "polls.answers.json#/definitions/model/properties/position"
+    },
+    "meta": {
+      "$ref": "polls.answers.json#/definitions/model/properties/meta",
+      "default": {}
     }
   }
 }

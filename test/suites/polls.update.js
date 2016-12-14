@@ -24,6 +24,7 @@ describe('polls.update', function suite() {
       ownerId: 'owner@poll.com',
       minUserAnswersCount: 1,
       maxUserAnswersCount: 1,
+      meta: { foo: 'bar' },
     };
 
     return polls
@@ -104,7 +105,13 @@ describe('polls.update', function suite() {
   });
 
   it('should be able to update poll', () => {
-    const payload = { id: this.poll.get('id'), title: 'What is your favorite food?' };
+    const payload = {
+      id: this.poll.get('id'),
+      title: 'What is your favorite food?',
+      minUserAnswersCount: 2,
+      maxUserAnswersCount: 2,
+      meta: { bar: 'baz' },
+    };
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
@@ -115,8 +122,9 @@ describe('polls.update', function suite() {
         assert.equal(attributes.title, 'What is your favorite food?');
         assert.equal(attributes.ownerId, 'owner@poll.com');
         assert.equal(attributes.state, 0);
-        assert.equal(attributes.minUserAnswersCount, 1);
-        assert.equal(attributes.maxUserAnswersCount, 1);
+        assert.equal(attributes.minUserAnswersCount, 2);
+        assert.equal(attributes.maxUserAnswersCount, 2);
+        assert.deepEqual(attributes.meta, { bar: 'baz' });
         assert.deepEqual(answers.data, []);
         assert.equal(attributes.startedAt, null);
         assert.equal(attributes.endedAt, null);
