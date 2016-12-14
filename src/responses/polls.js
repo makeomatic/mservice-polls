@@ -7,7 +7,11 @@ function transform(poll) {
     attributes: poll.omit('id'),
     relations: {
       answers: {
-        data: poll.related('answers').map(answerResponse).map(response => response.data),
+        data: poll
+          .related('answers')
+          .sortBy('position')
+          .map(answerResponse)
+          .map(response => response.data),
       },
     },
   };

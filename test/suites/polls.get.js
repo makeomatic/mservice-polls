@@ -33,14 +33,28 @@ describe('polls.update', function suite() {
 
   before('create answer', () => {
     const params = {
-      title: 'What is your favorite cat?',
+      title: 'Foo',
       pollId: this.poll.get('id'),
+      position: 1,
     };
 
     return polls
       .service('answers')
       .create(params)
-      .tap(answer => (this.answer = answer));
+      .tap(answer => (this.answerFirst = answer));
+  });
+
+  before('create answer', () => {
+    const params = {
+      title: 'Bar',
+      pollId: this.poll.get('id'),
+      position: 0,
+    };
+
+    return polls
+      .service('answers')
+      .create(params)
+      .tap(answer => (this.answerSecond = answer));
   });
 
   after('shutdown service', () => polls.close());
@@ -77,7 +91,7 @@ describe('polls.update', function suite() {
     return http({ qs })
       .then(({ body }) => {
         const { id, type, attributes, relations: { answers } } = body.data;
-        const answer = answers.data[0];
+        const [answerSecond, answerFirst] = answers.data;
 
         // id
         assert.equal(id, this.poll.get('id'));
@@ -94,14 +108,23 @@ describe('polls.update', function suite() {
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));
         // relations
-        assert.equal(answers.data.length, 1);
-        assert.equal(answer.id, this.answer.get('id'));
-        assert.equal(answer.type, 'pollAnswer');
-        assert.equal(answer.attributes.title, 'What is your favorite cat?');
-        assert.equal(answer.attributes.pollId, this.poll.get('id'));
-        assert.equal(answer.attributes.position, 0);
-        assert.ok(isISODate(answer.attributes.createdAt));
-        assert.ok(isISODate(answer.attributes.updatedAt));
+        assert.equal(answers.data.length, 2);
+        // first postion
+        assert.equal(answerSecond.id, this.answerSecond.get('id'));
+        assert.equal(answerSecond.type, 'pollAnswer');
+        assert.equal(answerSecond.attributes.title, 'Bar');
+        assert.equal(answerSecond.attributes.pollId, this.poll.get('id'));
+        assert.equal(answerSecond.attributes.position, 0);
+        assert.ok(isISODate(answerSecond.attributes.createdAt));
+        assert.ok(isISODate(answerSecond.attributes.updatedAt));
+        // second postion
+        assert.equal(answerFirst.id, this.answerFirst.get('id'));
+        assert.equal(answerFirst.type, 'pollAnswer');
+        assert.equal(answerFirst.attributes.title, 'Foo');
+        assert.equal(answerFirst.attributes.pollId, this.poll.get('id'));
+        assert.equal(answerFirst.attributes.position, 1);
+        assert.ok(isISODate(answerFirst.attributes.createdAt));
+        assert.ok(isISODate(answerFirst.attributes.updatedAt));
       });
   });
 });
