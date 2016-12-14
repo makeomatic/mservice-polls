@@ -1,0 +1,11 @@
+{
+  "id": "polls.end.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "$ref": "polls.json#/definitions/model/properties/id"
+    }
+  }
+}

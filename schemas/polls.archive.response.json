@@ -1,0 +1,4 @@
+{
+  "id": "polls.archive.response",
+  "$ref": "polls.json#/definitions/response"
+}
