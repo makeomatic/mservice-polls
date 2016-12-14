@@ -1,0 +1,4 @@
+{
+  "id": "polls.stop.response",
+  "$ref": "polls.json#/definitions/response"
+}

@@ -10,7 +10,7 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
  * @apiVersion 1.0.0
  * @apiName polls.vote
  * @apiGroup Polls
- * @apiDescription Broadcast `pollVote` event with collection of `Answer` with votes count
+ * @apiDescription Broadcast `pollUserAnswer` event with collection of `Answer` with votes count
  * @apiSchema {jsonschema=../../../schemas/polls.vote.request.json} apiParam
  * @apiSchema {jsonschema=../../../schemas/polls.vote.response.json} apiSuccess
  */
@@ -18,7 +18,7 @@ function pollVoteAction(request) {
   const { auth, params: { answersIds }, model: poll } = request;
   const serviceUsersAnswers = this.service('usersAnswers');
   const serviceBroadcast = this.service('broadcast');
-  const { POLL_VOTE } = serviceBroadcast.constructor.events;
+  const { POLL_USER_ANSWER } = serviceBroadcast.constructor.events;
   const { user } = auth.credentials;
 
   return Promise
@@ -34,7 +34,7 @@ function pollVoteAction(request) {
     )
     .then(responseWithVotesCount)
     .tap(answersCollection =>
-      serviceBroadcast.fire(POLL_VOTE, answersCollection, poll.get('ownerId'))
+      serviceBroadcast.fire(POLL_USER_ANSWER, answersCollection, poll.get('ownerId'))
     );
 }
 
