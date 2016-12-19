@@ -5,7 +5,9 @@ function update(hasActivePoll = false, poll) {
   const timeout = timeouts.verify;
   const username = poll.get('ownerId');
   const metadata = {
-    hasActivePoll,
+    $set: {
+      hasActivePoll,
+    },
   };
 
   return amqp.publishAndWait(route, { audience, username, metadata }, { timeout });
