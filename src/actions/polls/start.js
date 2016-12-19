@@ -24,7 +24,8 @@ function startPollAction(request) {
     .then(modelResponse)
     .tap(startedPoll =>
       serviceBroadcast.fire(POLL_STARTED, startedPoll, startedPoll.data.attributes.ownerId)
-    );
+    )
+    .tap(() => this.hook('polls:start:post', poll));
 }
 
 function allowed(request) {
