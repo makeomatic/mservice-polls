@@ -24,7 +24,8 @@ function stopPollAction(request) {
     .then(modelResponse)
     .tap(stopedPoll =>
       serviceBroadcast.fire(POLL_STOPED, stopedPoll, stopedPoll.data.attributes.ownerId)
-    );
+    )
+    .tap(() => this.hook('polls:stop:post', poll));
 }
 
 function allowed(request) {
