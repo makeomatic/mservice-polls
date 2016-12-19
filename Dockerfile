@@ -28,3 +28,5 @@ RUN \
 COPY . /src
 RUN  chown -R node /src
 USER node
+
+EXPOSE 3000
