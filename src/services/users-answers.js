@@ -26,6 +26,14 @@ class UsersAnswers {
 
     return answer.save();
   }
+
+  remove(answersIds, userId) {
+    return this.UserAnswer
+      .forge()
+      .where('answerId', 'IN', answersIds)
+      .where('userId', userId)
+      .destroy();
+  }
 }
 
 module.exports = UsersAnswers;

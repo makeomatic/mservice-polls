@@ -6,7 +6,7 @@ const Promise = require('bluebird');
 const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
 
 /**
- * @api {http.post} <prefix>.polls.answer Vote for poll answers
+ * @api {http.post} <prefix>.polls.vote Vote for poll answers
  * @apiVersion 1.0.0
  * @apiName polls.vote
  * @apiGroup Polls

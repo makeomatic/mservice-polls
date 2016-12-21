@@ -20,6 +20,7 @@ module.exports = {
       end: ['root'],
       archive: ['root'],
       vote: [],
+      unvote: [],
     },
   },
 };
