@@ -10,7 +10,7 @@ function getOwners(poll) {
       eq: JSON.stringify(poll.get('ownerId')),
     },
     roles: {
-      match: 'root',
+      match: 'admin',
     },
   };
 
