@@ -1,0 +1,4 @@
+{
+  "id": "polls.unvote.response",
+  "$ref": "common.json#/definitions/successResponse"
+}
