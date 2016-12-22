@@ -38,7 +38,7 @@ function allowed(request) {
     throw new NotPermittedError('Can\'t delete poll that have started');
   }
 
-  return this.service('allowed').hasAccess(user, poll);
+  return this.service('allowed').hasAccess(user, poll.get('ownerId'));
 }
 
 deletePollAction.allowed = allowed;

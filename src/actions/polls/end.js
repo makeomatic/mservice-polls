@@ -36,7 +36,7 @@ function allowed(request) {
     throw new NotPermittedError('Can\'t end poll that have not stoped');
   }
 
-  return this.service('allowed').hasAccess(user, poll);
+  return this.service('allowed').hasAccess(user, poll.get('ownerId'));
 }
 
 endPollAction.allowed = allowed;
