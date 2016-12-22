@@ -37,7 +37,7 @@ function allowed(request) {
     throw new NotPermittedError('Can\'t start poll that have started or have ended');
   }
 
-  return this.service('allowed').hasAccess(user, poll);
+  return this.service('allowed').hasAccess(user, poll.get('ownerId'));
 }
 
 startPollAction.allowed = allowed;

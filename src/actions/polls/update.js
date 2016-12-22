@@ -36,7 +36,7 @@ function allowed(request) {
     throw new NotPermittedError('Can\'t modify poll that have ended');
   }
 
-  return this.service('allowed').hasAccess(user, poll);
+  return this.service('allowed').hasAccess(user, poll.get('ownerId'));
 }
 
 updatePollAction.allowed = allowed;

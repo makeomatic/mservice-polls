@@ -16,6 +16,14 @@ function createPollAction({ params }) {
     .then(modelResponse);
 }
 
+function allowed({ auth, params }) {
+  const { ownerId } = params;
+  const { user } = auth.credentials;
+
+  return this.service('allowed').hasAccess(user, ownerId);
+}
+
+createPollAction.allowed = allowed;
 createPollAction.auth = 'token';
 createPollAction.schema = 'polls.create.request';
 createPollAction.transports = ['http'];

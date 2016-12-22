@@ -37,7 +37,7 @@ function allowed(request) {
     throw new NotPermittedError('Can\'t archive poll that have not ended');
   }
 
-  return this.service('allowed').hasAccess(user, poll);
+  return this.service('allowed').hasAccess(user, poll.get('ownerId'));
 }
 
 archivePollAction.allowed = allowed;

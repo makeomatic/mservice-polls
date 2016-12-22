@@ -22,6 +22,11 @@ describe('polls.create', function suite() {
       .call(polls, 'root@foo.com', 'rootpassword000000')
       .tap(({ jwt }) => (this.rootToken = jwt))
   );
+  before('login second admin', () =>
+    authHelper
+      .call(polls, 'secondroot@foo.com', 'rootpassword000000')
+      .tap(({ jwt }) => (this.secondRootToken = jwt))
+  );
   before('login user', () =>
     authHelper
       .call(polls, 'user@foo.com', 'userpassword000000')
@@ -56,10 +61,22 @@ describe('polls.create', function suite() {
       });
   });
 
+  it('should be able to return error if has not access', () => {
+    const headers = authHeader(this.secondRootToken);
+    const payload = { title: 'What is your favorite food?', ownerId: 'owner@poll.com' };
+
+    return http({ headers, body: payload })
+      .then(({ body }) => {
+        assert.equal(body.statusCode, 403);
+        assert.equal(body.message, 'An attempt was made to perform an operation that is not'
+          + ' permitted: Hasn\'t access');
+      });
+  });
+
   it('should be able to create poll', () => {
     const payload = {
       title: 'What is your favorite food?',
-      ownerId: 'jamie@oliver.com',
+      ownerId: 'owner@poll.com',
       meta: { foo: 'bar' },
     };
 
@@ -70,7 +87,7 @@ describe('polls.create', function suite() {
         assert.ok(Number.isInteger(id));
         assert.equal(type, 'poll');
         assert.equal(attributes.title, 'What is your favorite food?');
-        assert.equal(attributes.ownerId, 'jamie@oliver.com');
+        assert.equal(attributes.ownerId, 'owner@poll.com');
         assert.equal(attributes.state, 0);
         assert.equal(attributes.minUserAnswersCount, 1);
         assert.equal(attributes.maxUserAnswersCount, 1);
