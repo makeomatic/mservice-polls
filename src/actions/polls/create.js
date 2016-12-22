@@ -5,6 +5,7 @@ const { modelResponse } = require('../../responses/polls');
  * @apiVersion 1.0.0
  * @apiName polls.create
  * @apiGroup Polls
+ * @apiHeader Authorization JWT authorization
  * @apiSchema {jsonschema=../../../schemas/polls.create.request.json} apiParam
  * @apiSchema {jsonschema=../../../schemas/polls.create.response.json} apiSuccess
  */

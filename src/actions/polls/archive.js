@@ -10,6 +10,7 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
  * @apiName polls.archive
  * @apiGroup Polls
  * @apiDescription Broadcast `pollArchived` event with `Poll` model
+ * @apiHeader Authorization JWT authorization
  * @apiSchema {jsonschema=../../../schemas/polls.archive.request.json} apiParam
  * @apiSchema {jsonschema=../../../schemas/polls.archive.response.json} apiSuccess
  */

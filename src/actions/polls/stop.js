@@ -10,6 +10,7 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
  * @apiName polls.stop
  * @apiGroup Polls
  * @apiDescription Broadcast `pollStoped` event with `Poll` model
+ * @apiHeader Authorization JWT authorization
  * @apiSchema {jsonschema=../../../schemas/polls.stop.request.json} apiParam
  * @apiSchema {jsonschema=../../../schemas/polls.stop.response.json} apiSuccess
  */

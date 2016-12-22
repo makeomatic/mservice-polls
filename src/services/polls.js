@@ -28,6 +28,27 @@ class Polls {
   }
 }
 
+Polls.start = (poll) => {
+  const params = {
+    state: Polls.state.STARTED,
+  };
+
+  if (poll.get('startedAt') === null) {
+    params.startedAt = new Date();
+  }
+
+  return poll.save(params);
+};
+
+Polls.end = (poll) => {
+  const params = {
+    state: Polls.state.ENDED,
+    endedAt: new Date(),
+  };
+
+  return poll.save(params);
+};
+
 Polls.state = {
   CREATED: 0,
   STARTED: 1,

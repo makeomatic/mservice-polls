@@ -10,17 +10,17 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
  * @apiName polls.end
  * @apiGroup Polls
  * @apiDescription Broadcast `pollEnded` event with `Poll` model
+ * @apiHeader Authorization JWT authorization
  * @apiSchema {jsonschema=../../../schemas/polls.end.request.json} apiParam
  * @apiSchema {jsonschema=../../../schemas/polls.end.response.json} apiSuccess
  */
 function endPollAction(request) {
   const { model: poll } = request;
-  const { ENDED } = this.service('polls').constructor.state;
+  const { end } = this.service('polls').constructor;
   const serviceBroadcast = this.service('broadcast');
   const { POLL_ENDED } = serviceBroadcast.constructor.events;
 
-  return poll
-    .save({ state: ENDED })
+  return end(poll)
     .then(modelResponse)
     .tap(endedPoll =>
       serviceBroadcast.fire(POLL_ENDED, endedPoll, endedPoll.data.attributes.ownerId)

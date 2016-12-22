@@ -11,6 +11,7 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
  * @apiName polls.vote
  * @apiGroup Polls
  * @apiDescription Broadcast `pollUserAnswer` event with collection of `Answer` with votes count
+ * @apiHeader Authorization JWT authorization
  * @apiSchema {jsonschema=../../../schemas/polls.vote.request.json} apiParam
  * @apiSchema {jsonschema=../../../schemas/polls.vote.response.json} apiSuccess
  */

@@ -87,13 +87,13 @@ describe('polls.users.answers', function suite() {
 
   it('should be able to return error if invalid params', () => {
     const headers = authHeader(this.userToken);
-    const qs = { id: 'catcatcat' };
+    const qs = { id: '12cat' };
 
     return http({ headers, qs })
       .then(({ body }) => {
         assert.equal(body.statusCode, 400);
         assert.equal(body.message, 'polls.users.answers.request validation failed: data.id'
-          + ' should match pattern "\\d+"');
+          + ' should match pattern "^\\d+$"');
       });
   });
 

@@ -9,6 +9,7 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
  * @apiVersion 1.0.0
  * @apiName polls.users.answers
  * @apiGroup PollsUsers
+ * @apiHeader [Authorization] JWT authorization
  * @apiSchema {jsonschema=../../../../schemas/polls.users.answers.request.json} apiParam
  * @apiSchema {jsonschema=../../../../schemas/polls.users.answers.response.json} apiSuccess
  */
