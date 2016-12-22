@@ -24,7 +24,7 @@ describe('polls.end', function suite() {
       ownerId: 'owner@poll.com',
       minUserAnswersCount: 1,
       maxUserAnswersCount: 1,
-      startedAt: Date.now(),
+      startedAt: new Date(),
     };
 
     return polls
@@ -39,7 +39,7 @@ describe('polls.end', function suite() {
       ownerId: 'owner@poll.com',
       minUserAnswersCount: 1,
       maxUserAnswersCount: 1,
-      startedAt: Date.now(),
+      startedAt: new Date(),
       state: polls.service('polls').constructor.state.STOPED,
     };
 
