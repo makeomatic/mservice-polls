@@ -13,7 +13,7 @@ class Broadcast {
 
     const { route, ttl } = this.config;
 
-    return this.amqp.publish(route, { message, roomId }, { ttl });
+    return this.amqp.publish(route, { event, message, roomId }, { ttl });
   }
 }
 

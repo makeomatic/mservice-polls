@@ -10,17 +10,17 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
  * @apiName polls.start
  * @apiGroup Polls
  * @apiDescription Broadcast `pollStarted` event with `Poll` model
+ * @apiHeader Authorization JWT authorization
  * @apiSchema {jsonschema=../../../schemas/polls.start.request.json} apiParam
  * @apiSchema {jsonschema=../../../schemas/polls.start.response.json} apiSuccess
  */
 function startPollAction(request) {
   const { model: poll } = request;
-  const { STARTED } = this.service('polls').constructor.state;
+  const { start } = this.service('polls').constructor;
   const serviceBroadcast = this.service('broadcast');
   const { POLL_STARTED } = serviceBroadcast.constructor.events;
 
-  return poll
-    .save({ state: STARTED })
+  return start(poll)
     .then(modelResponse)
     .tap(startedPoll =>
       serviceBroadcast.fire(POLL_STARTED, startedPoll, startedPoll.data.attributes.ownerId)

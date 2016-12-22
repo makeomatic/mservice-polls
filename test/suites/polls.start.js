@@ -148,7 +148,7 @@ describe('polls.start', function suite() {
         assert.equal(attributes.minUserAnswersCount, 1);
         assert.equal(attributes.maxUserAnswersCount, 1);
         assert.deepEqual(answers.data, []);
-        assert.equal(attributes.startedAt, null);
+        assert.ok(isISODate(attributes.startedAt));
         assert.equal(attributes.endedAt, null);
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));
@@ -170,7 +170,7 @@ describe('polls.start', function suite() {
         assert.equal(attributes.minUserAnswersCount, 1);
         assert.equal(attributes.maxUserAnswersCount, 1);
         assert.deepEqual(answers.data, []);
-        assert.equal(attributes.startedAt, null);
+        assert.ok(isISODate(attributes.startedAt));
         assert.equal(attributes.endedAt, null);
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));

@@ -11,6 +11,7 @@ const fetcher = fetcherFactory('Answer', { relations: ['poll'] });
  * @apiName polls.answers.delete
  * @apiGroup PollsAnswers
  * @apiDescription Broadcast `pollAnswerDeleted` event with `Answer` model
+ * @apiHeader Authorization JWT authorization
  * @apiSchema {jsonschema=../../../../schemas/polls.answers.delete.request.json} apiParam
  * @apiSchema {jsonschema=../../../../schemas/polls.answers.delete.response.json} apiSuccess
  */

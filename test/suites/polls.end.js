@@ -24,6 +24,7 @@ describe('polls.end', function suite() {
       ownerId: 'owner@poll.com',
       minUserAnswersCount: 1,
       maxUserAnswersCount: 1,
+      startedAt: new Date(),
     };
 
     return polls
@@ -38,6 +39,7 @@ describe('polls.end', function suite() {
       ownerId: 'owner@poll.com',
       minUserAnswersCount: 1,
       maxUserAnswersCount: 1,
+      startedAt: new Date(),
       state: polls.service('polls').constructor.state.STOPED,
     };
 
@@ -133,8 +135,8 @@ describe('polls.end', function suite() {
         assert.equal(attributes.minUserAnswersCount, 1);
         assert.equal(attributes.maxUserAnswersCount, 1);
         assert.deepEqual(answers.data, []);
-        assert.equal(attributes.startedAt, null);
-        assert.equal(attributes.endedAt, null);
+        assert.ok(isISODate(attributes.startedAt));
+        assert.ok(isISODate(attributes.endedAt));
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));
       });

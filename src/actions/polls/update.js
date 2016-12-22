@@ -10,6 +10,7 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
  * @apiName polls.update
  * @apiGroup Polls
  * @apiDescription Broadcast `pollUpdated` event with `Poll` model
+ * @apiHeader Authorization JWT authorization
  * @apiSchema {jsonschema=../../../schemas/polls.update.request.json} apiParam
  * @apiSchema {jsonschema=../../../schemas/polls.update.response.json} apiSuccess
  */

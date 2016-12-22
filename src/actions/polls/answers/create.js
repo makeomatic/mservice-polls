@@ -10,6 +10,7 @@ const fetcher = fetcherFactory('Poll', { key: { id: 'pollId' } });
  * @apiName polls.answers.create
  * @apiGroup PollsAnswers
  * @apiDescription Broadcast `pollAnswerCreated` event with `Answer` model
+ * @apiHeader Authorization JWT authorization
  * @apiSchema {jsonschema=../../../../schemas/polls.answers.create.request.json} apiParam
  * @apiSchema {jsonschema=../../../../schemas/polls.answers.create.response.json} apiSuccess
  */
