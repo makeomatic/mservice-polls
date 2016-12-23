@@ -20,6 +20,7 @@
             },
             {
               "type": "array",
+              "minItems": 1,
               "items": {
                 "$ref": "polls.json#/definitions/model/properties/state"
               }
