@@ -26,19 +26,23 @@
       "description": "Collection response metadata",
       "type": "object",
       "additionalProperties": false,
-      "required": ["count"],
+      "required": ["count", "page", "pageSize", "pageCount"],
       "properties": {
         "count": {
           "type": "integer",
           "description": "Count of results"
         },
-        "before": {
-          "type": "string",
-          "description": "Cursor for current query"
+        "page": {
+          "type": "integer",
+          "description": "Page of results"
         },
-        "cursor": {
-          "type": "string",
-          "description": "Cursor for next query"
+        "pageSize": {
+          "type": "integer",
+          "description": "Size of page"
+        },
+        "pageCount": {
+          "type": "integer",
+          "description": "Count of pages"
         }
       }
     }

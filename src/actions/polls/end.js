@@ -1,6 +1,5 @@
 const { modelResponse } = require('../../responses/polls');
 const fetcherFactory = require('../../plugins/fetcher/factory');
-const { NotPermittedError } = require('common-errors');
 
 const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
 
@@ -30,11 +29,6 @@ function endPollAction(request) {
 function allowed(request) {
   const { model: poll, auth } = request;
   const { user } = auth.credentials;
-  const { STOPED } = this.service('polls').constructor.state;
-
-  if (poll.get('state') !== STOPED) {
-    throw new NotPermittedError('Can\'t end poll that have not stoped');
-  }
 
   return this.service('allowed').hasAccess(user, poll.get('ownerId'));
 }

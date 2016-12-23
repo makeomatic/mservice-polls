@@ -3,8 +3,15 @@ const qs = require('qs');
 
 function preValidate(request) {
   if (request.query) {
+    const { transformQuery } = request.action;
+    let query = qs.parse(request.query);
+
+    if (transformQuery) {
+      query = transformQuery(query);
+    }
+
     // eslint-disable-next-line no-param-reassign
-    request.query = qs.parse(request.query);
+    request.query = query;
   }
 
   return Promise.resolve(request);

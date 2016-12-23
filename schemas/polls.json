@@ -17,7 +17,7 @@
           "description": "Identificator of owner"
         },
         "state": {
-          "type": "string",
+          "type": "integer",
           "description": "State of the poll"
         },
         "minUserAnswersCount": {

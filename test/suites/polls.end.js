@@ -18,21 +18,6 @@ const polls = new Polls(config);
 describe('polls.end', function suite() {
   before('start up service', () => polls.connect());
 
-  before('create poll with state created', () => {
-    const params = {
-      title: 'What is your favorite cat?',
-      ownerId: 'owner@poll.com',
-      minUserAnswersCount: 1,
-      maxUserAnswersCount: 1,
-      startedAt: new Date(),
-    };
-
-    return polls
-      .service('polls')
-      .create(params)
-      .tap(poll => (this.createdPoll = poll));
-  });
-
   before('create poll with state stoped', () => {
     const params = {
       title: 'What is your favorite cat?',
@@ -139,17 +124,6 @@ describe('polls.end', function suite() {
         assert.ok(isISODate(attributes.endedAt));
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));
-      });
-  });
-
-  it('should not be able to stop poll with status created', () => {
-    const payload = { id: this.createdPoll.get('id') };
-
-    return http({ body: payload, headers: authHeader(this.rootToken) })
-      .then(({ body }) => {
-        assert.equal(body.statusCode, 403);
-        assert.equal(body.message, 'An attempt was made to perform an operation that is not'
-          + ' permitted: Can\'t end poll that have not stoped');
       });
   });
 });
