@@ -17,13 +17,13 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
  */
 function deletePollAction(request) {
   const { model: poll } = request;
+  const deletedPoll = modelResponse(poll);
   const serviceBroadcast = this.service('broadcast');
   const { POLL_DELETED } = serviceBroadcast.constructor.events;
 
   return poll
     .destroy()
-    .then(modelResponse)
-    .tap(deletedPoll =>
+    .tap(() =>
       serviceBroadcast.fire(POLL_DELETED, deletedPoll, deletedPoll.data.attributes.ownerId)
     )
     .then(successResponse);
