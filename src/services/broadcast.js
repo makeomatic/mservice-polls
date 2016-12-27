@@ -18,6 +18,7 @@ class Broadcast {
 }
 
 Broadcast.events = {
+  POLL_CREATED: 'pollCreated',
   POLL_UPDATED: 'pollUpdated',
   POLL_DELETED: 'pollDeleted',
   POLL_STARTED: 'pollStarted',

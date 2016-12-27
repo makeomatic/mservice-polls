@@ -10,10 +10,14 @@ const { modelResponse } = require('../../responses/polls');
  * @apiSchema {jsonschema=../../../schemas/polls.create.response.json} apiSuccess
  */
 function createPollAction({ params }) {
+  const serviceBroadcast = this.service('broadcast');
+  const { POLL_CREATED } = serviceBroadcast.constructor.events;
+
   return this
     .service('polls')
     .create(params)
-    .then(modelResponse);
+    .then(modelResponse)
+    .tap(poll => serviceBroadcast.fire(POLL_CREATED, poll, poll.data.attributes.ownerId));
 }
 
 function allowed({ auth, params }) {
