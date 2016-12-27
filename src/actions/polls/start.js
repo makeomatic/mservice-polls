@@ -1,6 +1,5 @@
 const { modelResponse } = require('../../responses/polls');
 const fetcherFactory = require('../../plugins/fetcher/factory');
-const { NotPermittedError } = require('common-errors');
 
 const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
 
@@ -31,11 +30,6 @@ function startPollAction(request) {
 function allowed(request) {
   const { model: poll, auth } = request;
   const { user } = auth.credentials;
-  const { CREATED, STOPED } = this.service('polls').constructor.state;
-
-  if (poll.get('state') !== CREATED && poll.get('state') !== STOPED) {
-    throw new NotPermittedError('Can\'t start poll that have started or have ended');
-  }
 
   return this.service('allowed').hasAccess(user, poll.get('ownerId'));
 }

@@ -32,21 +32,6 @@ describe('polls.start', function suite() {
       .tap(poll => (this.createdPoll = poll));
   });
 
-  before('create poll with state started', () => {
-    const params = {
-      title: 'What is your favorite cat?',
-      ownerId: 'owner@poll.com',
-      minUserAnswersCount: 1,
-      maxUserAnswersCount: 1,
-      state: polls.service('polls').constructor.state.STARTED,
-    };
-
-    return polls
-      .service('polls')
-      .create(params)
-      .tap(poll => (this.startedPoll = poll));
-  });
-
   before('create poll with state stoped', () => {
     const params = {
       title: 'What is your favorite cat?',
@@ -174,17 +159,6 @@ describe('polls.start', function suite() {
         assert.equal(attributes.endedAt, null);
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));
-      });
-  });
-
-  it('should not be able to start poll with status started', () => {
-    const payload = { id: this.startedPoll.get('id') };
-
-    return http({ body: payload, headers: authHeader(this.rootToken) })
-      .then(({ body }) => {
-        assert.equal(body.statusCode, 403);
-        assert.equal(body.message, 'An attempt was made to perform an operation that is not '
-          + 'permitted: Can\'t start poll that have started or have ended');
       });
   });
 });

@@ -1,6 +1,5 @@
 const { modelResponse } = require('../../responses/polls');
 const fetcherFactory = require('../../plugins/fetcher/factory');
-const { NotPermittedError } = require('common-errors');
 
 const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
 
@@ -31,11 +30,6 @@ function archivePollAction(request) {
 function allowed(request) {
   const { model: poll, auth } = request;
   const { user } = auth.credentials;
-  const { ENDED } = this.service('polls').constructor.state;
-
-  if (poll.get('state') !== ENDED) {
-    throw new NotPermittedError('Can\'t archive poll that have not ended');
-  }
 
   return this.service('allowed').hasAccess(user, poll.get('ownerId'));
 }

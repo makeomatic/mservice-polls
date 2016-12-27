@@ -27,16 +27,23 @@ describe('polls.list', function suite() {
       minUserAnswersCount: 1,
       maxUserAnswersCount: 1,
     };
+    const pollsParams = [
+      Object.assign({}, params, { ownerId: ownerIdFirst, state: 2 }),
+      Object.assign({}, params, { ownerId: ownerIdSecond, state: 1 }),
+      Object.assign({}, params, { ownerId: ownerIdFirst, state: 1 }),
+      Object.assign({}, params, { ownerId: ownerIdFirst, state: 3 }),
+    ];
 
     return Promise
       .mapSeries(
-        [ownerIdFirst, ownerIdSecond, ownerIdFirst],
-        ownerId => polls.service('polls').create(Object.assign({ ownerId }, params))
+        pollsParams,
+        poll => polls.service('polls').create(poll)
       )
-      .spread((first, second, third) => {
+      .spread((first, second, third, four) => {
         this.pollFirst = first;
         this.pollSecond = second;
         this.pollThird = third;
+        this.pollFour = four;
       });
   });
 
@@ -77,7 +84,7 @@ describe('polls.list', function suite() {
       })
   );
 
-  it('should be able to filter polls', () => {
+  it('should be able to filter polls by owner id', () => {
     const qs = { filter: { ownerId: ownerIdSecond } };
 
     return http({ qs })
@@ -86,8 +93,46 @@ describe('polls.list', function suite() {
       });
   });
 
+  it('should be able to filter polls by state (one state)', () => {
+    const qs = { filter: { ownerId: ownerIdFirst, state: 2 } };
+
+    return http({ qs })
+      .then(({ body }) => {
+        assert.equal(body.data.length === 1, true);
+        assert.equal(body.data[0].id, this.pollFirst.get('id'));
+      });
+  });
+
+  it('should be able to filter polls by state (many states)', () => {
+    const uri = 'http://localhost:3000/api/polls/list' +
+      `?filter[ownerId]=${ownerIdFirst}&filter[state]=1&filter[state]=2`;
+
+    return http({ uri })
+      .then(({ body }) => {
+        assert.equal(body.data.length === 2, true);
+        assert.equal(body.data[0].id, this.pollThird.get('id'));
+        assert.equal(body.data[1].id, this.pollFirst.get('id'));
+      });
+  });
+
+  it('should be able to sort polls', () => {
+    const qs = {
+      filter: { ownerId: ownerIdFirst, state: [1, 2] },
+      sort: '-state,id',
+      page: {
+        size: 1,
+      },
+    };
+
+    return http({ qs })
+      .then(({ body }) => {
+        assert.equal(body.data.length === 1, true);
+        assert.equal(body.data[0].id, this.pollFirst.get('id'));
+      });
+  });
+
   it('should be able to paginate polls', () => {
-    const qs = { filter: { ownerId: ownerIdFirst }, page: { size: 1, number: 2 } };
+    const qs = { filter: { ownerId: ownerIdFirst }, page: { size: 1, number: 3 } };
 
     return http({ qs })
       .then(({ body }) => {

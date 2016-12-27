@@ -14,12 +14,20 @@ class Polls {
   }
 
   list(query) {
-    const { filter, page, sort } = query;
+    const { filter: { ownerId, state }, page, sort } = query;
+    const builder = this.Poll.forge();
 
-    return this.Poll
-      .forge()
-      .where(filter)
-      .orderBy(sort)
+    if (ownerId) {
+      builder.where({ ownerId });
+    }
+
+    if (state) {
+      builder.where('state', 'IN', Array.isArray(state) ? state : [state]);
+    }
+
+    sort.forEach(field => builder.orderBy(field));
+
+    return builder
       .fetchPage({
         pageSize: page.size,
         page: page.number,
