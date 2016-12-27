@@ -24,8 +24,6 @@ function pollsListAction(request) {
         polls.map(poll => poll.related('answers').map(answer => answer.get('id')))
       );
 
-      console.log(answersIds)
-
       return Promise.join(polls, this.service('usersAnswers').getVotes(answersIds, userId));
     })
     .spread(collectionResponse);
