@@ -128,10 +128,10 @@ describe('polls.users.answers', function suite() {
         meta.answers.forEach((answer) => {
           if (answer.id === this.answerFirst.get('id')) {
             assert.equal(answer.votesCount, 1);
-            assert.equal(answer.userAnswered, false);
+            assert.equal(answer.userAnswered, undefined);
           } else {
             assert.equal(answer.votesCount, 0);
-            assert.equal(answer.userAnswered, false);
+            assert.equal(answer.userAnswered, undefined);
           }
         });
       });

@@ -1,6 +1,8 @@
 const { collectionResponse } = require('../../responses/polls');
+const flatten = require('lodash/flatten');
 const is = require('is');
 const mapValues = require('lodash/mapValues');
+const Promise = require('bluebird');
 
 /**
  * @api {http.get} <prefix>.polls.list Get list of polls
@@ -10,11 +12,23 @@ const mapValues = require('lodash/mapValues');
  * @apiSchema {jsonschema=../../../schemas/polls.list.request.json} apiParam
  * @apiSchema {jsonschema=../../../schemas/polls.list.response.json} apiSuccess
  */
-function pollsListAction({ query }) {
+function pollsListAction(request) {
+  const { auth, query } = request;
+  const userId = auth.credentials ? auth.credentials.user.id : null;
+
   return this
     .service('polls')
     .list(query)
-    .then(collectionResponse);
+    .then((polls) => {
+      const answersIds = flatten(
+        polls.map(poll => poll.related('answers').map(answer => answer.get('id')))
+      );
+
+      console.log(answersIds)
+
+      return Promise.join(polls, this.service('usersAnswers').getVotes(answersIds, userId));
+    })
+    .spread(collectionResponse);
 }
 
 function transformQuery(query) {
@@ -39,6 +53,7 @@ function transformQuery(query) {
   return Object.assign({}, query, transformed);
 }
 
+pollsListAction.auth = 'token';
 pollsListAction.schema = 'polls.list.request';
 pollsListAction.transformQuery = transformQuery;
 pollsListAction.transports = ['http'];

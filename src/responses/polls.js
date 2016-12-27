@@ -23,8 +23,8 @@ function modelResponse(poll) {
   };
 }
 
-function collectionResponse(data) {
-  const meta = Object.assign({ count: data.models.length }, data.pagination);
+function collectionResponse(data, answersMeta) {
+  const meta = Object.assign({ count: data.models.length, answers: answersMeta }, data.pagination);
 
   return {
     meta,
