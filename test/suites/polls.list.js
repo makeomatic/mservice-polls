@@ -172,10 +172,16 @@ describe('polls.list', function suite() {
         assert.equal(page, 3);
         assert.equal(pageSize, 1);
         assert.equal(pageCount, 3);
-        assert.deepEqual(answers, [
-          { id: this.answerFirst.get('id'), votesCount: 1 },
-          { id: this.answerSecond.get('id'), votesCount: 0 },
-        ]);
+
+        answers.forEach((object) => {
+          if (object.id === this.answerFirst.get('id')) {
+            assert.equal(object.votesCount, 1);
+            assert.equal(object.userAnswered, undefined);
+          } else {
+            assert.equal(object.votesCount, 0);
+            assert.equal(object.userAnswered, undefined);
+          }
+        });
 
         // polls
         assert.equal(data.length, 1);
@@ -201,10 +207,15 @@ describe('polls.list', function suite() {
         const { meta } = body;
         const { answers } = meta;
 
-        assert.deepEqual(answers, [
-          { id: this.answerFirst.get('id'), votesCount: 1, userAnswered: true },
-          { id: this.answerSecond.get('id'), votesCount: 0, userAnswered: false },
-        ]);
+        answers.forEach((object) => {
+          if (object.id === this.answerFirst.get('id')) {
+            assert.equal(object.votesCount, 1);
+            assert.equal(object.userAnswered, true);
+          } else {
+            assert.equal(object.votesCount, 0);
+            assert.equal(object.userAnswered, false);
+          }
+        });
       });
   });
 });
