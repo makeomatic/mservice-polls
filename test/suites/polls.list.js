@@ -1,3 +1,4 @@
+const { auth: authHelper, authHeader } = require('../helpers/auth');
 const assert = require('assert');
 const Chance = require('chance');
 const config = require('../configs/service');
@@ -49,15 +50,40 @@ describe('polls.list', function suite() {
 
   before('create answer', () => {
     const params = {
-      title: 'What is your favorite cat?',
+      title: 'Perchik',
       pollId: this.pollFirst.get('id'),
+      position: 1,
     };
 
     return polls
       .service('answers')
       .create(params)
-      .tap(answer => (this.answer = answer));
+      .tap(answer => (this.answerFirst = answer));
   });
+
+  before('create answer', () => {
+    const params = {
+      title: 'Dexter',
+      pollId: this.pollFirst.get('id'),
+      position: 2,
+    };
+
+    return polls
+      .service('answers')
+      .create(params)
+      .tap(answer => (this.answerSecond = answer));
+  });
+
+  before('create user answer', () => polls
+    .service('usersAnswers')
+    .save(this.answerFirst.get('id'), 'user@foo.com')
+  );
+
+  before('login user', () =>
+    authHelper
+      .call(polls, 'user@foo.com', 'userpassword000000')
+      .tap(({ jwt }) => (this.userToken = jwt))
+  );
 
   after('shutdown service', () => polls.close());
 
@@ -136,19 +162,60 @@ describe('polls.list', function suite() {
 
     return http({ qs })
       .then(({ body }) => {
-        const answer = body.data[0].relations.answers.data[0];
+        const { meta, data } = body;
+        const { count, page, pageSize, pageCount, answers } = meta;
+        const [poll] = data;
+        const answer = poll.relations.answers.data[0];
 
-        // id
-        assert.equal(body.data[0].id, this.pollFirst.get('id'));
+        // meta
+        assert.equal(count, 1);
+        assert.equal(page, 3);
+        assert.equal(pageSize, 1);
+        assert.equal(pageCount, 3);
+
+        answers.forEach((object) => {
+          if (object.id === this.answerFirst.get('id')) {
+            assert.equal(object.votesCount, 1);
+            assert.equal(object.userAnswered, undefined);
+          } else {
+            assert.equal(object.votesCount, 0);
+            assert.equal(object.userAnswered, undefined);
+          }
+        });
+
+        // polls
+        assert.equal(data.length, 1);
+        assert.equal(poll.id, this.pollFirst.get('id'));
+
         // relations
-        assert.equal(body.data[0].relations.answers.data.length, 1);
-        assert.equal(answer.id, this.answer.get('id'));
+        assert.equal(poll.relations.answers.data.length, 2);
+        assert.equal(answer.id, this.answerFirst.get('id'));
         assert.equal(answer.type, 'pollAnswer');
-        assert.equal(answer.attributes.title, 'What is your favorite cat?');
+        assert.equal(answer.attributes.title, 'Perchik');
         assert.equal(answer.attributes.pollId, this.pollFirst.get('id'));
-        assert.equal(answer.attributes.position, 0);
+        assert.equal(answer.attributes.position, 1);
         assert.ok(isISODate(answer.attributes.createdAt));
         assert.ok(isISODate(answer.attributes.updatedAt));
+      });
+  });
+
+  it('should be able to get list meta for current user', () => {
+    const qs = { filter: { ownerId: ownerIdFirst }, page: { size: 1, number: 3 } };
+
+    return http({ qs, headers: authHeader(this.userToken) })
+      .then(({ body }) => {
+        const { meta } = body;
+        const { answers } = meta;
+
+        answers.forEach((object) => {
+          if (object.id === this.answerFirst.get('id')) {
+            assert.equal(object.votesCount, 1);
+            assert.equal(object.userAnswered, true);
+          } else {
+            assert.equal(object.votesCount, 0);
+            assert.equal(object.userAnswered, false);
+          }
+        });
       });
   });
 });

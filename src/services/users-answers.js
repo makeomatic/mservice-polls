@@ -1,21 +1,54 @@
+const Promise = require('bluebird');
+
+const indexedReducer = (indexed, data) => {
+  // eslint-disable-next-line no-param-reassign
+  indexed[data.answerId] = data;
+  return indexed;
+};
+
 class UsersAnswers {
   constructor(bookshelf) {
     this.UserAnswer = bookshelf.model('UserAnswer');
   }
 
   getVotes(answersIds, userId) {
-    return this.UserAnswer
-      .forge()
-      .where('userId', userId)
+    const votesCount = this.UserAnswer
+      .query()
+      .select('answerId')
+      .count('id')
+      .groupBy('answerId')
       .where('answerId', 'IN', answersIds)
-      .fetchAll();
+      .reduce(indexedReducer, {});
+
+    const promises = [votesCount];
+
+    if (userId) {
+      promises.push(this.userVotes(answersIds, userId));
+    }
+
+    return Promise
+      .join(...promises)
+      .spread((votes, userAnswers) => answersIds.map((id) => {
+        const response = {
+          id,
+          votesCount: votes[id] ? Number(votes[id].count) : 0,
+        };
+
+        if (userAnswers) {
+          response.userAnswered = userAnswers[id] !== undefined;
+        }
+
+        return response;
+      }));
   }
 
-  getVotesCount(answerId) {
+  userVotes(answersIds, userId) {
     return this.UserAnswer
-      .forge()
-      .where('answerId', answerId)
-      .count();
+      .query()
+      .select('answerId')
+      .where('answerId', 'IN', answersIds)
+      .where('userId', userId)
+      .reduce(indexedReducer, {});
   }
 
   save(answerId, userId) {

@@ -1,6 +1,7 @@
 const { responseWithVotesCount } = require('../../responses/answers');
 const fetcherFactory = require('../../plugins/fetcher/factory');
 const { NotPermittedError } = require('common-errors');
+const omit = require('lodash/omit');
 const Promise = require('bluebird');
 
 const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
@@ -24,19 +25,17 @@ function pollVoteAction(request) {
 
   return Promise
     .map(answersIds, answersId => serviceUsersAnswers.save(answersId, user.id))
-    .return(poll.related('answers').toArray())
-    .map(answer => serviceUsersAnswers
-      .getVotesCount(answer.get('id'))
-      .then(votesCount => ({
-        answer,
-        votesCount,
-        userAnswered: answersIds.includes(answer.get('id')),
-      }))
+    .then(() =>
+      Promise.join(poll.related('answers'), serviceUsersAnswers.getVotes(answersIds, user.id))
     )
-    .then(responseWithVotesCount)
-    .tap(answersCollection =>
-      serviceBroadcast.fire(POLL_USER_ANSWER, answersCollection, poll.get('ownerId'))
-    );
+    .spread(responseWithVotesCount)
+    .tap((response) => {
+      const { answers } = response.meta;
+      const meta = Object.assign({}, response.meta, { answers: omit(answers, 'userAnswered') });
+      const answersCollection = Object.assign({}, response, { meta });
+
+      return serviceBroadcast.fire(POLL_USER_ANSWER, answersCollection, poll.get('ownerId'));
+    });
 }
 
 /*
@@ -74,9 +73,9 @@ function allowed(request) {
 
   return this
     .service('usersAnswers')
-    .getVotes(answersIds, user.id)
+    .userVotes(answersIds, user.id)
     .then((answers) => {
-      if (answers.length !== 0) {
+      if (Object.keys(answers).length !== 0) {
         throw new NotPermittedError('Already answered');
       }
     });

@@ -16,32 +16,13 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
 function pollUsersAnswersAction(request) {
   const { auth: { credentials }, model: poll } = request;
   const serviceUsersAnswers = this.service('usersAnswers');
-  const answers = poll.related('answers').toArray();
+  const answers = poll.related('answers');
   const answersIds = answers.map(answer => answer.id);
-  let answeredIds = [];
+  const userId = credentials ? credentials.user.id : null;
 
   return Promise
-    .resolve(answers)
-    .tap(() => {
-      if (credentials) {
-        return serviceUsersAnswers
-          .getVotes(answersIds, credentials.user.id)
-          .call('toArray')
-          .map(userAnswers => userAnswers.get('answerId'))
-          .then(userAnswersIds => (answeredIds = userAnswersIds));
-      }
-
-      return null;
-    })
-    .map(answer => serviceUsersAnswers
-      .getVotesCount(answer.get('id'))
-      .then(votesCount => ({
-        answer,
-        votesCount,
-        userAnswered: answeredIds.includes(answer.get('id')),
-      }))
-    )
-    .then(responseWithVotesCount);
+    .join(answers, serviceUsersAnswers.getVotes(answersIds, userId))
+    .spread(responseWithVotesCount);
 }
 
 pollUsersAnswersAction.auth = 'token';

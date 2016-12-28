@@ -1,8 +1,8 @@
-function transform(poll) {
+function transform(answer) {
   return {
-    id: poll.get('id'),
+    id: answer.get('id'),
     type: 'pollAnswer',
-    attributes: poll.omit('id'),
+    attributes: answer.omit('id'),
   };
 }
 
@@ -12,20 +12,13 @@ function modelResponse(poll) {
   };
 }
 
-function responseWithVotesCount(answersData) {
-  return answersData
-    .reduce((response, answerData) => {
-      const { answer, votesCount, userAnswered } = answerData;
+function responseWithVotesCount(answers, answersMeta) {
+  const response = {
+    meta: { answers: answersMeta },
+    data: answers.sortBy('position').map(transform),
+  };
 
-      response.data.push(transform(answer));
-      response.meta.answers.push({
-        userAnswered,
-        votesCount: Number(votesCount),
-        id: answer.get('id'),
-      });
-
-      return response;
-    }, { data: [], meta: { answers: [] } });
+  return response;
 }
 
 module.exports = {
