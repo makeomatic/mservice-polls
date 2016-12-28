@@ -26,7 +26,11 @@ function pollVoteAction(request) {
   return Promise
     .map(answersIds, answersId => serviceUsersAnswers.save(answersId, user.id))
     .then(() =>
-      Promise.join(poll.related('answers'), serviceUsersAnswers.getVotes(answersIds, user.id))
+      Promise.join(
+        poll.related('answers'),
+        serviceUsersAnswers
+          .getVotes(poll.related('answers').map(answer => answer.get('id')), user.id)
+      )
     )
     .spread(responseWithVotesCount)
     .tap((response) => {
