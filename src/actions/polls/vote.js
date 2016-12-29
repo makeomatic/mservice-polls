@@ -35,12 +35,11 @@ function pollVoteAction(request) {
     )
     .spread(responseWithVotesCount)
     .tap((response) => {
-      const meta = response.meta;
-      const answers = meta.answers;
-      const answersCollection = Object.assign({}, response);
+      const meta = Object.assign({}, response.meta);
+      const answersCollection = Object.assign({}, response, { meta });
 
       // remove information about answer of the last user
-      meta.answers = answers.map(cleanAnswer);
+      meta.answers = meta.answers.map(cleanAnswer);
 
       // broadcast stuff
       return serviceBroadcast.fire(POLL_USER_ANSWER, answersCollection, poll.get('ownerId'));
