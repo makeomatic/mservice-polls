@@ -5,6 +5,7 @@ const omit = require('lodash/omit');
 const Promise = require('bluebird');
 
 const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
+const cleanAnswer = answer => omit(answer, 'userAnswered');
 
 /**
  * @api {http.post} <prefix>.polls.vote Vote for poll answers
@@ -34,10 +35,14 @@ function pollVoteAction(request) {
     )
     .spread(responseWithVotesCount)
     .tap((response) => {
-      const { answers } = response.meta;
-      const meta = Object.assign({}, response.meta, { answers: omit(answers, 'userAnswered') });
-      const answersCollection = Object.assign({}, response, { meta });
+      const meta = response.meta;
+      const answers = meta.answers;
+      const answersCollection = Object.assign({}, response);
 
+      // remove information about answer of the last user
+      meta.answers = answers.map(cleanAnswer);
+
+      // broadcast stuff
       return serviceBroadcast.fire(POLL_USER_ANSWER, answersCollection, poll.get('ownerId'));
     });
 }
