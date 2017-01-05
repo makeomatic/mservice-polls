@@ -14,7 +14,7 @@ const fetcher = fetcherFactory('Poll', { key: { id: 'pollId' } });
  * @apiSchema {jsonschema=../../../../schemas/polls.answers.create.request.json} apiParam
  * @apiSchema {jsonschema=../../../../schemas/polls.answers.create.response.json} apiSuccess
  */
-function createPollAnswerAction({ params }) {
+function createPollAnswerAction({ model: poll, params }) {
   const serviceBroadcast = this.service('broadcast');
   const { POLL_ANSWER_CREATED } = serviceBroadcast.constructor.events;
 
@@ -22,9 +22,9 @@ function createPollAnswerAction({ params }) {
     .service('answers')
     .create(params)
     .then(modelResponse)
-    .tap(answer =>
-      serviceBroadcast.fire(POLL_ANSWER_CREATED, answer, answer.data.attributes.pollId)
-    );
+    .tap(answer => (
+      serviceBroadcast.fire(POLL_ANSWER_CREATED, answer, poll.get('ownerId'))
+    ));
 }
 
 function allowed(request) {
