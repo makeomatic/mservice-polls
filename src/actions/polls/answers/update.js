@@ -18,14 +18,14 @@ function updatePollAnswerAction(request) {
   const { params, model: answer } = request;
   const serviceBroadcast = this.service('broadcast');
   const { POLL_ANSWER_UPDATED } = serviceBroadcast.constructor.events;
+  const poll = answer.related('poll');
 
   return answer
     .save(params)
     .then(modelResponse)
-    .tap(updatedAnswer =>
-      serviceBroadcast
-        .fire(POLL_ANSWER_UPDATED, updatedAnswer, updatedAnswer.data.attributes.pollId)
-    );
+    .tap(updatedAnswer => (
+      serviceBroadcast.fire(POLL_ANSWER_UPDATED, updatedAnswer, poll.get('ownerId'))
+    ));
 }
 
 function allowed(request) {
