@@ -20,11 +20,11 @@ function deletePollAnswerAction(request) {
   const serviceBroadcast = this.service('broadcast');
   const { POLL_ANSWER_DELETED } = serviceBroadcast.constructor.events;
   const poll = answer.related('poll');
+  const deletedAnswer = modelResponse(answer);
 
   return answer
     .destroy()
-    .then(modelResponse)
-    .tap(deletedAnswer => (
+    .tap(() => (
       serviceBroadcast.fire(POLL_ANSWER_DELETED, deletedAnswer, poll.get('ownerId'))
     ))
     .then(successResponse);
