@@ -22,7 +22,7 @@ Broadcast.events = {
   POLL_UPDATED: 'pollUpdated',
   POLL_DELETED: 'pollDeleted',
   POLL_STARTED: 'pollStarted',
-  POLL_STOPED: 'pollStoped',
+  POLL_STOPPED: 'pollStoped',
   POLL_ENDED: 'pollEnded',
   POLL_ARCHIVED: 'pollArchived',
   POLL_ANSWER_CREATED: 'pollAnswerCreated',

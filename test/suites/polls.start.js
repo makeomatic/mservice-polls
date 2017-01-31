@@ -32,19 +32,19 @@ describe('polls.start', function suite() {
       .tap(poll => (this.createdPoll = poll));
   });
 
-  before('create poll with state stoped', () => {
+  before('create poll with state stopped', () => {
     const params = {
       title: 'What is your favorite cat?',
       ownerId: 'owner@poll.com',
       minUserAnswersCount: 1,
       maxUserAnswersCount: 1,
-      state: polls.service('polls').constructor.state.STOPED,
+      state: polls.service('polls').constructor.state.STOPPED,
     };
 
     return polls
       .service('polls')
       .create(params)
-      .tap(poll => (this.stopedPoll = poll));
+      .tap(poll => (this.stoppedPoll = poll));
   });
 
   before('login admin', () =>
@@ -140,8 +140,8 @@ describe('polls.start', function suite() {
       });
   });
 
-  it('should be able to start poll with status stoped', () => {
-    const payload = { id: this.stopedPoll.get('id') };
+  it('should be able to start poll with status stopped', () => {
+    const payload = { id: this.stoppedPoll.get('id') };
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {

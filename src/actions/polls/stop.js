@@ -15,15 +15,15 @@ const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
  */
 function stopPollAction(request) {
   const { model: poll } = request;
-  const { STOPED } = this.service('polls').constructor.state;
+  const { STOPPED } = this.service('polls').constructor.state;
   const serviceBroadcast = this.service('broadcast');
-  const { POLL_STOPED } = serviceBroadcast.constructor.events;
+  const { POLL_STOPPED } = serviceBroadcast.constructor.events;
 
   return poll
-    .save({ state: STOPED })
+    .save({ state: STOPPED })
     .then(modelResponse)
-    .tap(stopedPoll =>
-      serviceBroadcast.fire(POLL_STOPED, stopedPoll, stopedPoll.data.attributes.ownerId)
+    .tap(stoppedPoll =>
+      serviceBroadcast.fire(POLL_STOPPED, stoppedPoll, stoppedPoll.data.attributes.ownerId)
     )
     .tap(() => this.hook('polls:stop:post', poll));
 }

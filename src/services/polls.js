@@ -60,7 +60,7 @@ Polls.end = (poll) => {
 Polls.state = {
   CREATED: 0,
   STARTED: 1,
-  STOPED: 2,
+  STOPPED: 2,
   ENDED: 3,
   ARCHIVED: 4,
 };

@@ -18,20 +18,20 @@ const polls = new Polls(config);
 describe('polls.end', function suite() {
   before('start up service', () => polls.connect());
 
-  before('create poll with state stoped', () => {
+  before('create poll with state stopped', () => {
     const params = {
       title: 'What is your favorite cat?',
       ownerId: 'owner@poll.com',
       minUserAnswersCount: 1,
       maxUserAnswersCount: 1,
       startedAt: new Date(),
-      state: polls.service('polls').constructor.state.STOPED,
+      state: polls.service('polls').constructor.state.STOPPED,
     };
 
     return polls
       .service('polls')
       .create(params)
-      .tap(poll => (this.stopedPoll = poll));
+      .tap(poll => (this.stoppedPoll = poll));
   });
 
   before('login admin', () =>
@@ -83,7 +83,7 @@ describe('polls.end', function suite() {
 
   it('should be able to return error if has not access', () => {
     const headers = authHeader(this.secondRootToken);
-    const payload = { id: this.stopedPoll.get('id') };
+    const payload = { id: this.stoppedPoll.get('id') };
 
     return http({ headers, body: payload })
       .then(({ body }) => {
@@ -95,7 +95,7 @@ describe('polls.end', function suite() {
 
   it('should be able to return error if invalid params', () => {
     const headers = authHeader(this.rootToken);
-    const payload = { id: this.stopedPoll.get('id'), ownerId: 'owner@id.com' };
+    const payload = { id: this.stoppedPoll.get('id'), ownerId: 'owner@id.com' };
 
     return http({ headers, body: payload })
       .then(({ body }) => {
@@ -105,8 +105,8 @@ describe('polls.end', function suite() {
       });
   });
 
-  it('should be able to stop poll with status stoped', () => {
-    const payload = { id: this.stopedPoll.get('id') };
+  it('should be able to stop poll with status stopped', () => {
+    const payload = { id: this.stoppedPoll.get('id') };
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
