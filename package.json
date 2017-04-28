@@ -32,18 +32,18 @@
     "knex": "^0.12.6",
     "lodash": "^4.17.4",
     "ms-amqp-transport": "^7.0.1",
-    "ms-conf": "^2.3.0",
+    "ms-conf": "^3.1.2",
     "ms-validation": "^3.0.0",
-    "mservice": "^4.8.0",
+    "mservice": "^6.1.1",
     "pg": "^6.1.2",
     "qs": "^6.3.0"
   },
   "devDependencies": {
-    "apidoc": "^0.16.1",
+    "apidoc": "^0.17.5",
     "apidoc-plugin-schema": "^0.1.1",
     "chance": "^1.0.4",
-    "codecov": "^1.0.1",
-    "cz-conventional-changelog": "^1.2.0",
+    "codecov": "^2.1.0",
+    "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.12.1",
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-import": "^2.0.0",
@@ -51,13 +51,13 @@
     "eslint-plugin-mocha": "^4.8.0",
     "glob": "^7.1.1",
     "isparta": "^4.0.0",
-    "istanbul": "=0.4.4",
+    "istanbul": "0.4.5",
     "json": "^9.0.4",
     "latest-version-cli": "^1.0.0",
     "mocha": "^3.1.0",
     "request-promise": "^4.1.1",
     "semantic-release": "^6.3.2",
-    "sinon": "^1.17.7"
+    "sinon": "^2.1.0"
   },
   "release": {
     "verifyConditions": []
