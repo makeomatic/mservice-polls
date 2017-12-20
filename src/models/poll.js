@@ -4,6 +4,9 @@ const model = {
   answers: function relationAnswer() {
     return this.hasMany('Answer', 'pollId');
   },
+  contest: function relationContest() {
+    return this.belongsTo('Contest', 'contestId');
+  },
 };
 
 const staticProps = {
