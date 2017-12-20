@@ -22,7 +22,8 @@ function startContestAction(request) {
   return start(contest)
     .then(modelResponse)
     .tap(startedContest =>
-      broadcastService.fire(POLL_CONTEST_STARTED, startedContest, startedContest.data.attributes.ownerId)
+      broadcastService.fire(POLL_CONTEST_STARTED, startedContest,
+        startedContest.data.attributes.ownerId)
     )
     .tap(() => this.hook('polls:contest:start:post', contest));
 }

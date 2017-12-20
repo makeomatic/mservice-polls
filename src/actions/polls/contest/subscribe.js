@@ -23,14 +23,14 @@ function contestSubAction(request) {
 
   return usersContestService
     .save(contest.id, user.id)
-    .then(() => 
+    .then(() =>
       Promise.join(
         contest,
         usersContestService.getSubCount(contest.id)
       )
     )
     .spread(responseWithSubCount)
-    .tap((response) =>
+    .tap(response =>
       broadcastService
         .fire(POLL_CONTEST_USER_SUBSCRIBED, response, contest.get('ownerId'))
     );

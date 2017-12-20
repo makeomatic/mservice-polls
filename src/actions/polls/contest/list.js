@@ -1,8 +1,6 @@
 const { collectionResponse } = require('../../../responses/contest');
-const flatten = require('lodash/flatten');
 const is = require('is');
 const mapValues = require('lodash/mapValues');
-const Promise = require('bluebird');
 
 /**
  * @api {http.get} <prefix>.polls.contest.list Get list of contests
@@ -13,8 +11,7 @@ const Promise = require('bluebird');
  * @apiSchema {jsonschema=../../../schemas/polls.contest.list.response.json} apiSuccess
  */
 function contestListAction(request) {
-  const { auth, query } = request;
-  const userId = auth.credentials ? auth.credentials.user.id : null;
+  const { query } = request;
 
   return this
     .service('contest')

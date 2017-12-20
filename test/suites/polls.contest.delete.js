@@ -26,25 +26,25 @@ describe('polls.contest.delete', function suite() {
     return polls
       .service('contest')
       .create(params)
-      .tap(contest => (this.contest = contest));
+      .tap((contest) => { this.contest = contest; });
   });
 
   before('login admin', () =>
     authHelper
       .call(polls, 'root@foo.com', 'rootpassword000000')
-      .tap(({ jwt }) => (this.rootToken = jwt))
+      .tap(({ jwt }) => { this.rootToken = jwt; })
   );
 
   before('login second admin', () =>
     authHelper
       .call(polls, 'secondroot@foo.com', 'rootpassword000000')
-      .tap(({ jwt }) => (this.secondRootToken = jwt))
+      .tap(({ jwt }) => { this.secondRootToken = jwt; })
   );
 
   before('login user', () =>
     authHelper
       .call(polls, 'user@foo.com', 'userpassword000000')
-      .tap(({ jwt }) => (this.userToken = jwt))
+      .tap(({ jwt }) => { this.userToken = jwt; })
   );
 
   after('shutdown service', () => polls.close());

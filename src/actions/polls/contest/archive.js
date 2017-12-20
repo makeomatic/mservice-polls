@@ -23,7 +23,8 @@ function archiveContestAction(request) {
     .save({ state: ARCHIVED })
     .then(modelResponse)
     .tap(archivedContest =>
-      broadcastService.fire(POLL_CONTEST_ARCHIVED, archivedContest, archivedContest.data.attributes.ownerId)
+      broadcastService.fire(POLL_CONTEST_ARCHIVED, archivedContest,
+        archivedContest.data.attributes.ownerId)
     );
 }
 

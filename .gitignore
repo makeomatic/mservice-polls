@@ -35,6 +35,4 @@ lib
 # documentation
 docs
 
-yarn\.lock
-
 package-lock\.json

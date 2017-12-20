@@ -1,11 +1,3 @@
-const Promise = require('bluebird');
-
-const indexedReducer = (indexed, data) => {
-  // eslint-disable-next-line no-param-reassign
-  indexed[data.contestId] = data;
-  return indexed;
-};
-
 class UsersContest {
   constructor(bookshelf) {
     this.UserContest = bookshelf.model('UserContest');
@@ -28,9 +20,7 @@ class UsersContest {
       .where('contestId', contestId)
       .where('userId', userId)
       .first()
-      .then(({ subCount }) => {
-        return Number(subCount) !== 0;
-      });
+      .then(({ subCount }) => Number(subCount) !== 0);
   }
 
   save(contestId, userId) {

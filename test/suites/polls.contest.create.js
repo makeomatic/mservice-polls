@@ -20,17 +20,17 @@ describe('contest.create', function suite() {
   before('login admin', () =>
     authHelper
       .call(polls, 'root@foo.com', 'rootpassword000000')
-      .tap(({ jwt }) => (this.rootToken = jwt))
+      .tap(({ jwt }) => { this.rootToken = jwt; })
   );
   before('login second admin', () =>
     authHelper
       .call(polls, 'secondroot@foo.com', 'rootpassword000000')
-      .tap(({ jwt }) => (this.secondRootToken = jwt))
+      .tap(({ jwt }) => { this.secondRootToken = jwt; })
   );
   before('login user', () =>
     authHelper
       .call(polls, 'user@foo.com', 'userpassword000000')
-      .tap(({ jwt }) => (this.userToken = jwt))
+      .tap(({ jwt }) => { this.userToken = jwt; })
   );
   after('shutdown service', () => polls.close());
 
@@ -83,7 +83,6 @@ describe('contest.create', function suite() {
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
-
         const { id, type, attributes, relations: { users } } = body.data;
 
         assert.ok(Number.isInteger(id));
@@ -111,7 +110,6 @@ describe('contest.create', function suite() {
 
     return http({ body: payload, headers: authHeader(this.rootToken) })
       .then(({ body }) => {
-
         const { id, type, attributes, relations: { users } } = body.data;
 
         assert.ok(Number.isInteger(id));

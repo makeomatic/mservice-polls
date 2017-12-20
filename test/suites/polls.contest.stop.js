@@ -27,25 +27,25 @@ describe('polls.contest.stop', function suite() {
     return polls
       .service('contest')
       .create(params)
-      .tap(contest => (this.startedContest = contest));
+      .tap((contest) => { this.startedContest = contest; });
   });
 
   before('login admin', () =>
     authHelper
       .call(polls, 'root@foo.com', 'rootpassword000000')
-      .tap(({ jwt }) => (this.rootToken = jwt))
+      .tap(({ jwt }) => { this.rootToken = jwt; })
   );
 
   before('login second admin', () =>
     authHelper
       .call(polls, 'secondroot@foo.com', 'rootpassword000000')
-      .tap(({ jwt }) => (this.secondRootToken = jwt))
+      .tap(({ jwt }) => { this.secondRootToken = jwt; })
   );
 
   before('login user', () =>
     authHelper
       .call(polls, 'user@foo.com', 'userpassword000000')
-      .tap(({ jwt }) => (this.userToken = jwt))
+      .tap(({ jwt }) => { this.userToken = jwt; })
   );
 
   after('shutdown service', () => polls.close());
@@ -93,7 +93,7 @@ describe('polls.contest.stop', function suite() {
     const headers = authHeader(this.rootToken);
     const payload = {
       id: this.startedContest.get('id'),
-      ownerId: 'owner@id.com'
+      ownerId: 'owner@id.com',
     };
 
     return http({ headers, body: payload })

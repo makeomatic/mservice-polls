@@ -13,7 +13,7 @@ function transform(contest) {
           .map(user => user.get('userId')),
       },
       poll: pollResponse(contest.related('poll')),
-    }
+    },
   };
 }
 

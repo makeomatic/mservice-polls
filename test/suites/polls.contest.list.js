@@ -1,8 +1,7 @@
-const { auth: authHelper, authHeader } = require('../helpers/auth');
+const { auth: authHelper } = require('../helpers/auth');
 const assert = require('assert');
 const Chance = require('chance');
 const config = require('../configs/service');
-const { isISODate } = require('../helpers/date');
 const Polls = require('../../src');
 const Promise = require('bluebird');
 const request = require('request-promise');
@@ -54,7 +53,7 @@ describe('polls.contest.list', function suite() {
   before('login user', () =>
     authHelper
       .call(polls, 'user@foo.com', 'userpassword000000')
-      .tap(({ jwt }) => (this.userToken = jwt))
+      .tap(({ jwt }) => { this.userToken = jwt; })
   );
 
   after('shutdown service', () => polls.close());

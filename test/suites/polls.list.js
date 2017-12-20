@@ -34,7 +34,7 @@ describe('polls.list', function suite() {
     return polls
       .service('contest')
       .create(params)
-      .tap(contest => (this.contest = contest));
+      .tap((contest) => { this.contest = contest; });
   });
 
   before('create polls', () => {
@@ -75,7 +75,7 @@ describe('polls.list', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap(answer => (this.answerFirst = answer));
+      .tap((answer) => { this.answerFirst = answer; });
   });
 
   before('create answer', () => {
@@ -88,7 +88,7 @@ describe('polls.list', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap(answer => (this.answerSecond = answer));
+      .tap((answer) => { this.answerSecond = answer; });
   });
 
   before('create user answer', () => polls
@@ -99,7 +99,7 @@ describe('polls.list', function suite() {
   before('login user', () =>
     authHelper
       .call(polls, 'user@foo.com', 'userpassword000000')
-      .tap(({ jwt }) => (this.userToken = jwt))
+      .tap(({ jwt }) => { this.userToken = jwt; })
   );
 
   after('shutdown service', () => polls.close());
@@ -128,7 +128,7 @@ describe('polls.list', function suite() {
 
         assert.equal(first.id, this.pollFirst.get('id'));
         assert.equal(indexFifth, -1);
-      })
+      });
   });
 
   it('should be able to return list of polls', () =>

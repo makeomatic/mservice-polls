@@ -32,7 +32,7 @@ describe('polls.contest.end', function suite() {
     return polls
       .service('contest')
       .create(params)
-      .tap(contest => (this.contestNoQuestions = contest));
+      .tap((contest) => { this.contestNoQuestions = contest; });
   });
 
   before('create user subscription', () => polls
@@ -57,7 +57,7 @@ describe('polls.contest.end', function suite() {
     return polls
       .service('contest')
       .create(params)
-      .tap(contest => (this.contestWithQuestions = contest));
+      .tap((contest) => { this.contestWithQuestions = contest; });
   });
 
   before('create poll', () => {
@@ -72,7 +72,7 @@ describe('polls.contest.end', function suite() {
     return polls
       .service('polls')
       .create(params)
-      .tap(poll => (this.poll = poll));
+      .tap((poll) => { this.poll = poll; });
   });
 
   before('create answer', () => {
@@ -85,7 +85,7 @@ describe('polls.contest.end', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap(answer => (this.answerFirst = answer));
+      .tap((answer) => { this.answerFirst = answer; });
   });
 
   before('create answer', () => {
@@ -98,7 +98,7 @@ describe('polls.contest.end', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap(answer => (this.answerSecond = answer));
+      .tap((answer) => { this.answerSecond = answer; });
   });
 
   before('create user answer', () => polls
@@ -114,19 +114,19 @@ describe('polls.contest.end', function suite() {
   before('login admin', () =>
     authHelper
       .call(polls, 'root@foo.com', 'rootpassword000000')
-      .tap(({ jwt }) => (this.rootToken = jwt))
+      .tap(({ jwt }) => { this.rootToken = jwt; })
   );
 
   before('login second admin', () =>
     authHelper
       .call(polls, 'secondroot@foo.com', 'rootpassword000000')
-      .tap(({ jwt }) => (this.secondRootToken = jwt))
+      .tap(({ jwt }) => { this.secondRootToken = jwt; })
   );
 
   before('login user', () =>
     authHelper
       .call(polls, 'user@foo.com', 'userpassword000000')
-      .tap(({ jwt }) => (this.userToken = jwt))
+      .tap(({ jwt }) => { this.userToken = jwt; })
   );
 
   after('shutdown service', () => polls.close());
@@ -192,8 +192,8 @@ describe('polls.contest.end', function suite() {
 
         // meta
         assert.equal(winners.length, 1);
-        assert.ok(indexOf(users.data, winners[0]) != -1);
-      });    
+        assert.ok(indexOf(users.data, winners[0]) !== -1);
+      });
   });
 
   // rely on the previous one
@@ -218,7 +218,7 @@ describe('polls.contest.end', function suite() {
         assert.equal(body.statusCode, 403);
         assert.equal(body.message, 'An attempt was made to perform an operation that is not'
           + ' permitted: Can\'t end a contest with questions without an answer');
-      }); 
+      });
   });
 
   it('should be able to end contest with questions', () => {
@@ -254,6 +254,6 @@ describe('polls.contest.end', function suite() {
         assert.equal(pollAttributes.ownerId, 'owner@poll.com');
         assert.equal(pollAttributes.minUserAnswersCount, 1);
         assert.equal(pollAttributes.maxUserAnswersCount, 1);
-      });    
+      });
   });
 });

@@ -17,7 +17,8 @@ function createContestAction({ params }) {
     .service('contest')
     .create(params)
     .then(modelResponse)
-    .tap(contest => serviceBroadcast.fire(POLL_CONTEST_CREATED, contest, contest.data.attributes.ownerId));
+    .tap(contest => serviceBroadcast.fire(POLL_CONTEST_CREATED, contest,
+      contest.data.attributes.ownerId));
 }
 
 function allowed({ auth, params }) {

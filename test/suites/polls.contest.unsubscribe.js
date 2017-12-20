@@ -27,7 +27,7 @@ describe('polls.contest.unsubscribe', function suite() {
     return polls
       .service('contest')
       .create(params)
-      .tap(contest => (this.contestNoQuestions = contest));
+      .tap((contest) => { this.contestNoQuestions = contest; });
   });
 
   before('create contest with questions', () => {
@@ -41,13 +41,13 @@ describe('polls.contest.unsubscribe', function suite() {
     return polls
       .service('contest')
       .create(params)
-      .tap(contest => (this.contestWithQuestions = contest));
+      .tap((contest) => { this.contestWithQuestions = contest; });
   });
 
   before('login user', () =>
     authHelper
       .call(polls, 'user@foo.com', 'userpassword000000')
-      .tap(({ jwt }) => (this.userToken = jwt))
+      .tap(({ jwt }) => { this.userToken = jwt; })
   );
 
   after('shutdown service', () => polls.close());
@@ -117,6 +117,6 @@ describe('polls.contest.unsubscribe', function suite() {
         const { meta } = body;
 
         assert.deepEqual(meta, { status: 'success' });
-      });   
+      });
   });
 });

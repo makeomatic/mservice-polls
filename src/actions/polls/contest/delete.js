@@ -24,7 +24,8 @@ function deleteContestAction(request) {
   return contest
     .destroy()
     .tap(() =>
-      serviceBroadcast.fire(POLL_CONTEST_DELETED, deletedContest, deletedContest.data.attributes.ownerId)
+      serviceBroadcast.fire(POLL_CONTEST_DELETED, deletedContest,
+        deletedContest.data.attributes.ownerId)
     )
     .then(successResponse);
 }

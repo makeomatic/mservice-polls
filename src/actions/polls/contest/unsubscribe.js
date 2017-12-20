@@ -24,8 +24,7 @@ function contestUnsubAction(request) {
 }
 
 function allowed(request) {
-  const { auth, model: contest } = request;
-  const { user } = auth.credentials;
+  const { model: contest } = request;
   const { STARTED } = this.service('contest').constructor.state;
 
   if (contest.get('state') !== STARTED) {

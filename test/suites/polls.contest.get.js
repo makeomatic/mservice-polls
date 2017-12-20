@@ -26,7 +26,7 @@ describe('polls.contest.get', function suite() {
     return polls
       .service('contest')
       .create(params)
-      .tap(contest => (this.contestNoQuestions = contest));
+      .tap((contest) => { this.contestNoQuestions = contest; });
   });
 
   before('create user subscription', () => polls
@@ -44,7 +44,7 @@ describe('polls.contest.get', function suite() {
     return polls
       .service('contest')
       .create(params)
-      .tap(contest => (this.contestWithQuestions = contest));
+      .tap((contest) => { this.contestWithQuestions = contest; });
   });
 
   before('create poll', () => {
@@ -59,7 +59,7 @@ describe('polls.contest.get', function suite() {
     return polls
       .service('polls')
       .create(params)
-      .tap(poll => (this.poll = poll));
+      .tap((poll) => { this.poll = poll; });
   });
 
   before('create answer', () => {
@@ -72,7 +72,7 @@ describe('polls.contest.get', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap(answer => (this.answerFirst = answer));
+      .tap((answer) => { this.answerFirst = answer; });
   });
 
   before('create answer', () => {
@@ -85,7 +85,7 @@ describe('polls.contest.get', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap(answer => (this.answerSecond = answer));
+      .tap((answer) => { this.answerSecond = answer; });
   });
 
   after('shutdown service', () => polls.close());

@@ -23,7 +23,8 @@ function updateContestAction(request) {
     .save(params)
     .then(modelResponse)
     .tap(updatedContest =>
-      serviceBroadcast.fire(POLL_CONTEST_UPDATED, updatedContest, updatedContest.data.attributes.ownerId)
+      serviceBroadcast.fire(POLL_CONTEST_UPDATED, updatedContest,
+        updatedContest.data.attributes.ownerId)
     );
 }
 

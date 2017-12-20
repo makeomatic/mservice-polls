@@ -3,11 +3,11 @@ const fetcherFactory = require('../../../plugins/fetcher/factory');
 const { NotPermittedError } = require('common-errors');
 
 const fetcherContest = fetcherFactory('Contest', { relations: ['users', 'poll'] });
-const fetcherAnswer = fetcherFactory('Answer', { 
+const fetcherAnswer = fetcherFactory('Answer', {
   key: { id: 'answerId' },
   require: false,
   setTo: 'answer',
-  relations: [ 'usersAnswers' ]
+  relations: ['usersAnswers'],
 });
 
 /**
@@ -21,7 +21,7 @@ const fetcherAnswer = fetcherFactory('Answer', {
  * @apiSchema {jsonschema=../../../schemas/polls.contest.end.response.json} apiSuccess
  */
 function endContestAction(request) {
-  const { model: contest, answer } = request; 
+  const { model: contest, answer } = request;
   const contestService = this.service('contest');
   const broadcastService = this.service('broadcast');
   const { end } = contestService.constructor;
@@ -30,7 +30,8 @@ function endContestAction(request) {
   return end(contest, answer)
     .then(modelResponse)
     .tap(endedContest =>
-      broadcastService.fire(POLL_CONTEST_ENDED, endedContest, endedContest.data.attributes.ownerId)
+      broadcastService.fire(POLL_CONTEST_ENDED,
+        endedContest, endedContest.data.attributes.ownerId)
     );
 }
 
@@ -52,7 +53,7 @@ function allowed(request) {
 
 endContestAction.allowed = allowed;
 endContestAction.auth = 'token';
-endContestAction.fetchers = [ fetcherContest, fetcherAnswer ];
+endContestAction.fetchers = [fetcherContest, fetcherAnswer];
 endContestAction.schema = 'polls.contest.end.request';
 endContestAction.transports = ['http'];
 endContestAction.transportsOptions = {

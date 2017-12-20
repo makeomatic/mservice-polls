@@ -30,7 +30,8 @@ class Polls extends MService {
     this.addConnector(ConnectorsTypes.migration, () => this.migrate('knex'));
 
     // models
-    const bookshelf = this.bookshelf = Bookshelf(this.knex);
+    const bookshelf = Bookshelf(this.knex);
+    this.bookshelf = bookshelf;
     bookshelf.plugin(cascadeDelete);
     bookshelf.plugin('pagination');
     bookshelf.plugin('registry');

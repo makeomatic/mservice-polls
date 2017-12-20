@@ -23,7 +23,8 @@ function stopContestAction(request) {
     .save({ state: STOPPED })
     .then(modelResponse)
     .tap(stoppedContest =>
-      broadcastService.fire(POLL_CONTEST_STOPPED, stoppedContest, stoppedContest.data.attributes.ownerId)
+      broadcastService.fire(POLL_CONTEST_STOPPED, stoppedContest,
+        stoppedContest.data.attributes.ownerId)
     )
     .tap(() => this.hook('polls:contest:stop:post', contest));
 }

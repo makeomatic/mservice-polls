@@ -1,9 +1,9 @@
-exports.up = knex => 
+exports.up = knex =>
   knex.schema.table('polls', (table) => {
     table.integer('contestId').index().references('contest.id').defaultTo(null);
   });
 
-exports.down = knex => 
+exports.down = knex =>
   knex.schema.table('polls', (table) => {
     table.dropColumn('contestId');
   });
