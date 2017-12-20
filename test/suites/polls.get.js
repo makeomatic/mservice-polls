@@ -61,7 +61,7 @@ describe('polls.update', function suite() {
 
   it('should be able to return error if invalid method', () => {
     const params = {
-      uri: 'http://localhost:3000/api/polls/list',
+      uri: 'http://localhost:3000/api/polls/get',
       simple: false,
       resolveWithFullResponse: true,
       json: true,

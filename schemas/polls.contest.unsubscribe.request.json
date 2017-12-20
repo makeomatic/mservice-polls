@@ -1,0 +1,11 @@
+{
+  "id": "polls.contest.unsubscribe.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "$ref": "polls.contest.json#/definitions/model/properties/id"
+    }
+  }
+}
