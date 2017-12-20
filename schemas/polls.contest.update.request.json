@@ -1,0 +1,24 @@
+{
+  "id": "polls.contest.update.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "$ref": "polls.contest.json#/definitions/model/properties/id"
+    },
+    "prize": {
+      "$ref": "polls.contest.json#/definitions/model/properties/prize"
+    },
+    "onlyFollowers": {
+      "$ref": "polls.contest.json#/definitions/model/properties/onlyFollowers"
+    },
+    "nWinners": {
+      "$ref": "polls.contest.json#/definitions/model/properties/nWinners"
+    },
+    "meta": {
+      "$ref": "polls.contest.json#/definitions/model/properties/meta",
+      "default": {}
+    }
+  }
+}

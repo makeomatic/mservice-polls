@@ -25,6 +25,9 @@ class Polls {
       builder.where('state', 'IN', Array.isArray(state) ? state : [state]);
     }
 
+    // Not list contest child
+    builder.where('contestId', null);
+
     sort.forEach(field => builder.orderBy(field));
 
     return builder
