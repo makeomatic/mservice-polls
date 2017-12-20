@@ -1,0 +1,4 @@
+{
+  "id": "polls.contest.unsubscribe.response",
+  "$ref": "common.json#/definitions/successResponse"
+}

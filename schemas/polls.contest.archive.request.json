@@ -1,0 +1,11 @@
+{
+  "id": "polls.contest.archive.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "$ref": "polls.contest.json#/definitions/model/properties/id"
+    }
+  }
+}

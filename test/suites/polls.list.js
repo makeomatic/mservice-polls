@@ -6,6 +6,8 @@ const { isISODate } = require('../helpers/date');
 const Polls = require('../../src');
 const Promise = require('bluebird');
 const request = require('request-promise');
+const find = require('lodash/find');
+const findIndex = require('lodash/findIndex');
 
 const chance = new Chance();
 const http = request.defaults({
@@ -22,6 +24,19 @@ const ownerIdSecond = chance.email();
 describe('polls.list', function suite() {
   before('start up service', () => polls.connect());
 
+  before('create contest', () => {
+    const params = {
+      prize: 'Toronto FC Jersey',
+      ownerId: 'owner@poll.com',
+      hasQuestions: true,
+    };
+
+    return polls
+      .service('contest')
+      .create(params)
+      .tap((contest) => { this.contest = contest; });
+  });
+
   before('create polls', () => {
     const params = {
       title: 'What is your favorite cat?',
@@ -33,6 +48,7 @@ describe('polls.list', function suite() {
       Object.assign({}, params, { ownerId: ownerIdSecond, state: 1 }),
       Object.assign({}, params, { ownerId: ownerIdFirst, state: 1 }),
       Object.assign({}, params, { ownerId: ownerIdFirst, state: 3 }),
+      Object.assign({}, params, { ownerId: ownerIdFirst, state: 1, contestId: this.contest.get('id') }),
     ];
 
     return Promise
@@ -40,11 +56,12 @@ describe('polls.list', function suite() {
         pollsParams,
         poll => polls.service('polls').create(poll)
       )
-      .spread((first, second, third, four) => {
+      .spread((first, second, third, four, fifth) => {
         this.pollFirst = first;
         this.pollSecond = second;
         this.pollThird = third;
         this.pollFour = four;
+        this.pollFifth = fifth;
       });
   });
 
@@ -58,7 +75,7 @@ describe('polls.list', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap(answer => (this.answerFirst = answer));
+      .tap((answer) => { this.answerFirst = answer; });
   });
 
   before('create answer', () => {
@@ -71,7 +88,7 @@ describe('polls.list', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap(answer => (this.answerSecond = answer));
+      .tap((answer) => { this.answerSecond = answer; });
   });
 
   before('create user answer', () => polls
@@ -82,7 +99,7 @@ describe('polls.list', function suite() {
   before('login user', () =>
     authHelper
       .call(polls, 'user@foo.com', 'userpassword000000')
-      .tap(({ jwt }) => (this.userToken = jwt))
+      .tap(({ jwt }) => { this.userToken = jwt; })
   );
 
   after('shutdown service', () => polls.close());
@@ -100,6 +117,17 @@ describe('polls.list', function suite() {
       .then(({ body }) => {
         assert.equal(body.statusCode, 500);
         assert.equal(body.name, 'NotSupportedError');
+      });
+  });
+
+  it('should be able to ignore contest polls', () => {
+    http()
+      .then(({ body }) => {
+        const first = find(body.data, { id: this.pollFirst.get('id') });
+        const indexFifth = findIndex(body.data, { id: this.pollFifth.get('id') });
+
+        assert.equal(first.id, this.pollFirst.get('id'));
+        assert.equal(indexFifth, -1);
       });
   });
 
