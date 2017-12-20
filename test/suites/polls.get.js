@@ -28,7 +28,7 @@ describe('polls.update', function suite() {
     return polls
       .service('polls')
       .create(params)
-      .tap((poll) => { this.poll = poll; });
+      .tap(poll => (this.poll = poll));
   });
 
   before('create answer', () => {
@@ -41,7 +41,7 @@ describe('polls.update', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap((answer) => { this.answerFirst = answer; });
+      .tap(answer => (this.answerFirst = answer));
   });
 
   before('create answer', () => {
@@ -54,14 +54,14 @@ describe('polls.update', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap((answer) => { this.answerSecond = answer; });
+      .tap(answer => (this.answerSecond = answer));
   });
 
   after('shutdown service', () => polls.close());
 
   it('should be able to return error if invalid method', () => {
     const params = {
-      uri: 'http://localhost:3000/api/polls/get',
+      uri: 'http://localhost:3000/api/polls/list',
       simple: false,
       resolveWithFullResponse: true,
       json: true,

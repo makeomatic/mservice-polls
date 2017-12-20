@@ -51,6 +51,6 @@ module.exports = function factory(modelName, options = {}) {
         return value;
       })
       // eslint-disable-next-line no-param-reassign
-      .tap((value) => { request[settings.setTo] = value; });
+      .tap(value => (request[settings.setTo] = value));
   };
 };

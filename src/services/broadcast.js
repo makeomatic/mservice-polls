@@ -29,15 +29,6 @@ Broadcast.events = {
   POLL_ANSWER_UPDATED: 'pollAnswerUpdated',
   POLL_ANSWER_DELETED: 'pollAnswerDeleted',
   POLL_USER_ANSWER: 'pollUserAnswer',
-  POLL_CONTEST_CREATED: 'pollContestCreated',
-  POLL_CONTEST_UPDATED: 'pollContestUpdated',
-  POLL_CONTEST_DELETED: 'pollContestDeleted',
-  POLL_CONTEST_STARTED: 'pollContestStarted',
-  POLL_CONTEST_STOPPED: 'pollContestStoped',
-  POLL_CONTEST_ENDED: 'pollContestEnded',
-  POLL_CONTEST_ARCHIVED: 'pollContestArchived',
-  POLL_CONTEST_USER_SUBSCRIBED: 'pollContestUserSubscribed',
-  POLL_CONTEST_USER_UNSUBSCRIBED: 'pollContestUserUnsubscribed',
 };
 
 module.exports = Broadcast;

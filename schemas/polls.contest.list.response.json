@@ -1,4 +1,0 @@
-{
-  "id": "polls.contest.list.response",
-  "$ref": "polls.contest.json#/definitions/collectionResponse"
-}

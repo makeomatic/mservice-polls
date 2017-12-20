@@ -29,7 +29,7 @@ describe('polls.vote', function suite() {
     return polls
       .service('polls')
       .create(params)
-      .tap((poll) => { this.poll = poll; });
+      .tap(poll => (this.poll = poll));
   });
 
   before('create answer', () => {
@@ -41,7 +41,7 @@ describe('polls.vote', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap((answer) => { this.answerFirst = answer; });
+      .tap(answer => (this.answerFirst = answer));
   });
 
   before('create answer', () => {
@@ -53,7 +53,7 @@ describe('polls.vote', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap((answer) => { this.answerSecond = answer; });
+      .tap(answer => (this.answerSecond = answer));
   });
 
   before('create answer', () => {
@@ -65,7 +65,7 @@ describe('polls.vote', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap((answer) => { this.answerThird = answer; });
+      .tap(answer => (this.answerThird = answer));
   });
 
   before('create answer', () => {
@@ -77,13 +77,13 @@ describe('polls.vote', function suite() {
     return polls
       .service('answers')
       .create(params)
-      .tap((answer) => { this.answerFourth = answer; });
+      .tap(answer => (this.answerFourth = answer));
   });
 
   before('login user', () =>
     authHelper
       .call(polls, 'user@foo.com', 'userpassword000000')
-      .tap(({ jwt }) => { this.userToken = jwt; })
+      .tap(({ jwt }) => (this.userToken = jwt))
   );
 
   after('shutdown service', () => polls.close());
