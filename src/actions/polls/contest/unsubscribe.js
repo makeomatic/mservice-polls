@@ -9,8 +9,8 @@ const fetcher = fetcherFactory('Contest');
  * @apiVersion 1.0.0
  * @apiName polls.contest.unsubscribe
  * @apiGroup PollsContest
- * @apiSchema {jsonschema=../../../schemas/polls.contest.unsubscribe.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.unsubscribe.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.unsubscribe.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.unsubscribe.response.json} apiSuccess
  */
 function contestUnsubAction(request) {
   const { auth, model: contest } = request;

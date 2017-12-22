@@ -10,8 +10,8 @@ const fetcher = fetcherFactory('Contest');
  * @apiGroup PollsContest
  * @apiDescription Broadcast `pollContestStoped` event with `Contest` model
  * @apiHeader Authorization JWT authorization
- * @apiSchema {jsonschema=../../../schemas/polls.contest.stop.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.stop.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.stop.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.stop.response.json} apiSuccess
  */
 function stopContestAction(request) {
   const { model: contest } = request;

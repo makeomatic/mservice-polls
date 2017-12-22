@@ -10,8 +10,8 @@ const fetcher = fetcherFactory('Contest');
  * @apiGroup PollsContest
  * @apiDescription Broadcast `pollContestArchived` event with `Contest` model
  * @apiHeader Authorization JWT authorization
- * @apiSchema {jsonschema=../../../schemas/polls.contest.archive.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.archive.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.archive.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.archive.response.json} apiSuccess
  */
 function archiveContestAction(request) {
   const { model: contest } = request;
