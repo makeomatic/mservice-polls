@@ -1,0 +1,4 @@
+{
+  "id": "polls.contest.archive.response",
+  "$ref": "polls.contest.json#/definitions/response"
+}

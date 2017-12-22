@@ -1,0 +1,4 @@
+{
+  "id": "polls.contest.subscribe.response",
+  "$ref": "polls.contest.json#/definitions/collectionResponseWithSubCount"
+}

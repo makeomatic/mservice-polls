@@ -26,8 +26,9 @@
     "bookshelf": "^0.10.2",
     "bookshelf-cascade-delete": "^2.0.1",
     "bunyan": "^1.8.1",
+    "chance": "^1.0.4",
     "common-errors": "^1.0.0",
-    "hapi": "^16.1.0",
+    "hapi": "16.1.0",
     "is": "^3.1.0",
     "knex": "^0.12.6",
     "lodash": "^4.17.4",
@@ -41,7 +42,6 @@
   "devDependencies": {
     "apidoc": "^0.16.1",
     "apidoc-plugin-schema": "^0.1.1",
-    "chance": "^1.0.4",
     "codecov": "^1.0.1",
     "cz-conventional-changelog": "^1.2.0",
     "eslint": "^3.12.1",
@@ -58,6 +58,9 @@
     "request-promise": "^4.1.1",
     "semantic-release": "^6.3.2",
     "sinon": "^1.17.7"
+  },
+  "resolutions": {
+    "boom": "4.2.0"
   },
   "release": {
     "verifyConditions": []
