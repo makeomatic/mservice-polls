@@ -8,8 +8,8 @@ const fetcher = fetcherFactory('Contest', { relations: ['users', 'poll.answers']
  * @apiVersion 1.0.0
  * @apiName polls.contest.get
  * @apiGroup PollsContest
- * @apiSchema {jsonschema=../../../schemas/polls.contest.get.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.get.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.get.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.get.response.json} apiSuccess
  */
 function getContestAction(request) {
   const { model: contest } = request;

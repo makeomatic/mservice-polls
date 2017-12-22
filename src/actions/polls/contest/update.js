@@ -11,8 +11,8 @@ const fetcher = fetcherFactory('Contest', { relations: ['users', 'poll.answers']
  * @apiGroup PollsContest
  * @apiDescription Broadcast `pollContestUpdated` event with `Contest` model
  * @apiHeader Authorization JWT authorization
- * @apiSchema {jsonschema=../../../schemas/polls.contest.update.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.update.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.update.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.update.response.json} apiSuccess
  */
 function updateContestAction(request) {
   const { params, model: contest } = request;

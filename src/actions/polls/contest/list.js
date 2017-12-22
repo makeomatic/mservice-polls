@@ -7,8 +7,8 @@ const mapValues = require('lodash/mapValues');
  * @apiVersion 1.0.0
  * @apiName polls.contest.list
  * @apiGroup PollsContest
- * @apiSchema {jsonschema=../../../schemas/polls.contest.list.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.list.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.list.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.list.response.json} apiSuccess
  */
 function contestListAction(request) {
   const { query } = request;

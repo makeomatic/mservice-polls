@@ -12,8 +12,8 @@ const fetcher = fetcherFactory('Contest', { relations: ['users', 'poll'] });
  * @apiGroup PollsContest
  * @apiDescription Broadcast `pollContestDeleted` event with `Contest` model
  * @apiHeader Authorization JWT authorization
- * @apiSchema {jsonschema=../../../schemas/polls.contest.delete.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.delete.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.delete.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.delete.response.json} apiSuccess
  */
 function deleteContestAction(request) {
   const { model: contest } = request;
