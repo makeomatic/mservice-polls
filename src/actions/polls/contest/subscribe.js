@@ -10,8 +10,8 @@ const fetcher = fetcherFactory('Contest', { relations: ['users'] });
  * @apiVersion 1.0.0
  * @apiName polls.contest.subscribe
  * @apiGroup PollsContest
- * @apiSchema {jsonschema=../../../schemas/polls.contest.subscribe.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.subscribe.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.subscribe.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.subscribe.response.json} apiSuccess
  */
 function contestSubAction(request) {
   const { auth, model: contest } = request;

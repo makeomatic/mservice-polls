@@ -6,8 +6,8 @@ const { modelResponse } = require('../../../responses/contest');
  * @apiName polls.contest.create
  * @apiGroup PollsContest
  * @apiHeader Authorization JWT authorization
- * @apiSchema {jsonschema=../../../schemas/polls.contest.create.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.create.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.create.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.create.response.json} apiSuccess
  */
 function createContestAction({ params }) {
   const serviceBroadcast = this.service('broadcast');

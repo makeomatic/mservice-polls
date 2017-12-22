@@ -10,8 +10,8 @@ const fetcher = fetcherFactory('Contest');
  * @apiGroup PollsContest
  * @apiDescription Broadcast `pollContestStarted` event with `Contest` model
  * @apiHeader Authorization JWT authorization
- * @apiSchema {jsonschema=../../../schemas/polls.contest.start.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.start.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.start.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.start.response.json} apiSuccess
  */
 function startContestAction(request) {
   const { model: contest } = request;

@@ -17,8 +17,8 @@ const fetcherAnswer = fetcherFactory('Answer', {
  * @apiGroup PollsContest
  * @apiDescription Broadcast `pollContestEnded` event with `Contest` model
  * @apiHeader Authorization JWT authorization
- * @apiSchema {jsonschema=../../../schemas/polls.contest.end.request.json} apiParam
- * @apiSchema {jsonschema=../../../schemas/polls.contest.end.response.json} apiSuccess
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.end.request.json} apiParam
+ * @apiSchema {jsonschema=../../../../schemas/polls.contest.end.response.json} apiSuccess
  */
 function endContestAction(request) {
   const { model: contest, answer } = request;
