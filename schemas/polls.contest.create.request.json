@@ -21,6 +21,10 @@
     "hasQuestions": {
       "$ref": "polls.contest.json#/definitions/model/properties/hasQuestions",
       "default": false
+    },
+    "nWinners": {
+      "$ref": "polls.contest.json#/definitions/model/properties/nWinners",
+      "default": 1
     }
   }
 }
