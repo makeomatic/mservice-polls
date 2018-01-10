@@ -8,6 +8,10 @@
           "type": "integer",
           "description": "Identificator of the poll"
         },
+        "contestId": {
+          "type": "integer",
+          "description": "Identificator of contest"
+        },
         "title": {
           "type": "string",
           "description": "Title of the poll"
@@ -91,6 +95,9 @@
           "properties": {
             "title": {
               "$ref": "#/definitions/model/properties/title"
+            },
+            "contestId": {
+              "$ref": "#/definitions/model/properties/contestId"
             },
             "ownerId": {
               "$ref": "#/definitions/model/properties/ownerId"

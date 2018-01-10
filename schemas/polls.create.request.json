@@ -4,6 +4,9 @@
   "additionalProperties": false,
   "required": ["title", "ownerId", "minUserAnswersCount", "maxUserAnswersCount"],
   "properties": {
+    "contestId": {
+      "$ref": "polls.json#/definitions/model/properties/contestId"
+    },
     "title": {
       "$ref": "polls.json#/definitions/model/properties/title"
     },

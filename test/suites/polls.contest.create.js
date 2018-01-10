@@ -105,6 +105,7 @@ describe('contest.create', function suite() {
       prize: 'Toronto FC Jersey',
       ownerId: 'owner@poll.com',
       hasQuestions: true,
+      nWinners: 3,
       meta: { foo: 'bar' },
     };
 
@@ -117,6 +118,7 @@ describe('contest.create', function suite() {
         assert.equal(attributes.prize, 'Toronto FC Jersey');
         assert.equal(attributes.ownerId, 'owner@poll.com');
         assert.equal(attributes.state, 0);
+        assert.equal(attributes.nWinners, 3);
         assert.ok(attributes.hasQuestions);
         assert.deepEqual(attributes.meta, { foo: 'bar' });
         assert.deepEqual(users.data, []);
