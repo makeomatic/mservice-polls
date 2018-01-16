@@ -4,6 +4,7 @@ const config = require('../configs/service');
 const { isISODate } = require('../helpers/date');
 const Polls = require('../../src');
 const request = require('request-promise');
+const extend = require('lodash/extend');
 
 const http = request.defaults({
   uri: 'http://localhost:3000/api/polls/contest/stop',
@@ -28,6 +29,33 @@ describe('polls.contest.stop', function suite() {
       .service('contest')
       .create(params)
       .tap((contest) => { this.startedContest = contest; });
+  });
+
+  before('create contest with poll', () => {
+    const contestParams = {
+      prize: 'Toronto FC Jersey',
+      ownerId: 'owner@poll.com',
+      state: polls.service('contest').constructor.state.STARTED,
+      hasQuestions: true,
+    };
+
+    const pollParams = {
+      title: 'What is your favorite cat?',
+      ownerId: 'owner@poll.com',
+      minUserAnswersCount: 1,
+      maxUserAnswersCount: 1,
+      state: polls.service('polls').constructor.state.STARTED,
+    };
+
+    return polls
+      .service('contest')
+      .create(contestParams)
+      .tap((contest) => { this.contestWithPoll = contest; })
+      .then(contest => polls
+        .service('polls')
+        .create(extend(pollParams, { contestId: contest.get('id') }))
+        .tap((poll) => { this.poll = poll; })
+      );
   });
 
   before('login admin', () =>
@@ -121,5 +149,37 @@ describe('polls.contest.stop', function suite() {
         assert.ok(isISODate(attributes.createdAt));
         assert.ok(isISODate(attributes.updatedAt));
       });
+  });
+
+  it('should be able to stop contest with poll', () => {
+    const payload = { id: this.contestWithPoll.get('id') };
+    const pollParams = {
+      uri: 'http://localhost:3000/api/polls/get',
+      simple: false,
+      resolveWithFullResponse: true,
+      json: true,
+      method: 'get',
+      qs: { id: this.poll.get('id') },
+    };
+
+    return http({ body: payload, headers: authHeader(this.rootToken) })
+      .then(({ body }) => request(pollParams)
+        .then(({ body: bodyPoll }) => {
+          const { id, type, attributes } = body.data;
+
+          assert.ok(Number.isInteger(id));
+          assert.equal(type, 'contest');
+          assert.equal(attributes.prize, 'Toronto FC Jersey');
+          assert.equal(attributes.ownerId, 'owner@poll.com');
+          assert.equal(attributes.state, 2);
+          assert.equal(attributes.startedAt, null);
+          assert.equal(attributes.endedAt, null);
+          assert.ok(isISODate(attributes.createdAt));
+          assert.ok(isISODate(attributes.updatedAt));
+
+          // Check poll state
+          assert.equal(attributes.state, bodyPoll.data.attributes.state);
+        })
+      );
   });
 });

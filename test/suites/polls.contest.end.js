@@ -67,6 +67,7 @@ describe('polls.contest.end', function suite() {
       minUserAnswersCount: 1,
       maxUserAnswersCount: 1,
       contestId: this.contestWithQuestions.get('id'),
+      state: polls.service('polls').constructor.state.STOPPED,
     };
 
     return polls
@@ -254,6 +255,7 @@ describe('polls.contest.end', function suite() {
         assert.equal(pollAttributes.ownerId, 'owner@poll.com');
         assert.equal(pollAttributes.minUserAnswersCount, 1);
         assert.equal(pollAttributes.maxUserAnswersCount, 1);
+        assert.equal(pollAttributes.state, attributes.state);
       });
   });
 });
