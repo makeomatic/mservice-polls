@@ -1,7 +1,7 @@
 const { modelResponse } = require('../../../responses/contest');
 const fetcherFactory = require('../../../plugins/fetcher/factory');
 
-const fetcher = fetcherFactory('Contest');
+const fetcher = fetcherFactory('Contest', { relations: ['poll'] });
 
 /**
  * @api {http.post} <prefix>.polls.contest.start Start/resume the contest
@@ -16,11 +16,20 @@ const fetcher = fetcherFactory('Contest');
 function startContestAction(request) {
   const { model: contest } = request;
   const { start } = this.service('contest').constructor;
+  const { start: startPoll } = this.service('polls').constructor;
   const broadcastService = this.service('broadcast');
   const { POLL_CONTEST_STARTED } = broadcastService.constructor.events;
 
   return start(contest)
     .then(modelResponse)
+    .then((startedContest) => {
+      // if has poll then chain the status
+      if (startedContest.data.attributes.hasQuestions) {
+        return startPoll(contest.relations.poll)
+          .then(() => startedContest);
+      }
+      return startedContest;
+    })
     .tap(startedContest =>
       broadcastService.fire(POLL_CONTEST_STARTED, startedContest,
         startedContest.data.attributes.ownerId)

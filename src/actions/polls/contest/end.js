@@ -1,6 +1,7 @@
 const { modelResponse } = require('../../../responses/contest');
 const fetcherFactory = require('../../../plugins/fetcher/factory');
 const { NotPermittedError } = require('common-errors');
+const set = require('lodash/set');
 
 const fetcherContest = fetcherFactory('Contest', { relations: ['users', 'poll'] });
 const fetcherAnswer = fetcherFactory('Answer', {
@@ -25,10 +26,20 @@ function endContestAction(request) {
   const contestService = this.service('contest');
   const broadcastService = this.service('broadcast');
   const { end } = contestService.constructor;
+  const { end: endPoll, state: { ENDED: POLL_ENDED } } = this.service('polls').constructor;
   const { POLL_CONTEST_ENDED } = broadcastService.constructor.events;
 
   return end(contest, answer)
     .then(modelResponse)
+    .then((endedContest) => {
+      // if has poll then chain the status
+      if (endedContest.data.attributes.hasQuestions) {
+        return endPoll(contest.relations.poll)
+          // update poll state in the return object
+          .then(() => set(endedContest, 'data.relations.poll.data.attributes.state', POLL_ENDED));
+      }
+      return endedContest;
+    })
     .tap(endedContest =>
       broadcastService.fire(POLL_CONTEST_ENDED,
         endedContest, endedContest.data.attributes.ownerId)

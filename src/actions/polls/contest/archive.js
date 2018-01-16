@@ -1,7 +1,7 @@
 const { modelResponse } = require('../../../responses/contest');
 const fetcherFactory = require('../../../plugins/fetcher/factory');
 
-const fetcher = fetcherFactory('Contest');
+const fetcher = fetcherFactory('Contest', { relations: ['poll'] });
 
 /**
  * @api {http.post} <prefix>.polls.contest.archive Archive the contest
@@ -16,12 +16,22 @@ const fetcher = fetcherFactory('Contest');
 function archiveContestAction(request) {
   const { model: contest } = request;
   const { ARCHIVED } = this.service('contest').constructor.state;
+  const { ARCHIVED: ARCHIVED_POLL } = this.service('polls').constructor.state;
   const broadcastService = this.service('broadcast');
   const { POLL_CONTEST_ARCHIVED } = broadcastService.constructor.events;
 
   return contest
     .save({ state: ARCHIVED })
     .then(modelResponse)
+    .then((archivedContest) => {
+      // if has poll then chain the status
+      if (archivedContest.data.attributes.hasQuestions) {
+        return contest.relations.poll
+          .save({ state: ARCHIVED_POLL })
+          .then(() => archivedContest);
+      }
+      return archivedContest;
+    })
     .tap(archivedContest =>
       broadcastService.fire(POLL_CONTEST_ARCHIVED, archivedContest,
         archivedContest.data.attributes.ownerId)
