@@ -34,7 +34,7 @@ function startContestAction(request) {
       broadcastService.fire(POLL_CONTEST_STARTED, startedContest,
         startedContest.data.attributes.ownerId)
     )
-    .tap(() => this.hook('polls:contest:start:post', contest));
+    .tap(() => this.hook('contest:start:post', contest));
 }
 
 function allowed(request) {

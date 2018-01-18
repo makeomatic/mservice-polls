@@ -36,7 +36,7 @@ function stopContestAction(request) {
       broadcastService.fire(POLL_CONTEST_STOPPED, stoppedContest,
         stoppedContest.data.attributes.ownerId)
     )
-    .tap(() => this.hook('polls:contest:stop:post', contest));
+    .tap(() => this.hook('contest:stop:post', contest));
 }
 
 function allowed(request) {
