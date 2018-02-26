@@ -10,7 +10,11 @@ class UsersContest {
       .count('id as subCount')
       .groupBy('contestId')
       .where('contestId', contestId)
-      .first();
+      .first()
+      .then(({ subCount }) => ({
+        contestId,
+        subCount: Number(subCount),
+      }));
   }
 
   hasUserSubscribed(contestId, userId) {

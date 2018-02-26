@@ -2,6 +2,7 @@ const { responseWithVotesCount } = require('../../responses/answers');
 const fetcherFactory = require('../../plugins/fetcher/factory');
 const { NotPermittedError } = require('common-errors');
 const omit = require('lodash/omit');
+const set = require('lodash/set');
 const Promise = require('bluebird');
 
 const fetcher = fetcherFactory('Poll', { relations: ['answers'] });
@@ -34,6 +35,10 @@ function pollVoteAction(request) {
       )
     )
     .spread(responseWithVotesCount)
+    .then((response) => {
+      set(response, 'meta.pollId', poll.id);
+      return response;
+    })
     .tap((response) => {
       const meta = Object.assign({}, response.meta);
       const answersCollection = Object.assign({}, response, { meta });
