@@ -206,6 +206,7 @@ describe('polls.vote', function suite() {
 
         assert.equal(data.length, 4);
         assert.equal(meta.answers.length, 4);
+        assert.equal(meta.pollId, payload.id);
         meta.answers.forEach((answer) => {
           if (answer.id === this.answerFirst.get('id')
             || answer.id === this.answerSecond.get('id')
