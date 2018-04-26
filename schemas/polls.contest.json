@@ -142,7 +142,7 @@
               }
             },
             "poll": {
-              "$ref": "poll.json#/definitions/responseObject"
+              "$ref": "polls.json#/definitions/responseObject"
             }
           }
         }
