@@ -128,6 +128,33 @@
           }
         }
       }
+    },
+    "collectionResponseUsers": {
+      "additionalProperties": false,
+      "type": "object",
+      "required": ["meta", "data"],
+      "properties": {
+        "meta": {
+          "$ref": "common.json#/definitions/collectionResponseMeta"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "type"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^\\d+$"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["user"]
+              }
+            }
+          }
+        }
+      } 
     }
   }
 }

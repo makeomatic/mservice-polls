@@ -54,5 +54,14 @@ module.exports = {
         roles: [],
       },
     },
+    {
+      username: 'seconduser@foo.com',
+      password: 'userpassword000000',
+      metadata: {
+        firstName: 'Second',
+        lastName: 'User',
+        roles: [],
+      },
+    },
   ],
 };

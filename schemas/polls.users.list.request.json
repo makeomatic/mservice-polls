@@ -1,0 +1,43 @@
+{
+  "id": "polls.users.list.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^\\d+$"
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Pagination options",
+      "default": {},
+      "properties": {
+        "number": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1,
+          "description": "Number of page"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 100,
+          "description": "Number of results"
+        }
+      }
+    },
+    "sort": {
+      "type": "array",
+      "description": "Fields for sorting, transformed from sort property of query",
+      "items": {
+        "description": ", e.g. ?sort=-id,state",
+        "type": "string",
+        "enum": ["userId", "-userId", "createdAt", "-createdAt"]
+      },
+      "default": ["createdAt"]
+    }
+  }
+}
