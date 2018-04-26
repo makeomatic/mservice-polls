@@ -1,0 +1,4 @@
+{
+  "id": "polls.users.list.response",
+  "$ref": "polls.answers.json#/definitions/collectionResponseUsers"
+}

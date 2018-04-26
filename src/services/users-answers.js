@@ -42,6 +42,22 @@ class UsersAnswers {
       }));
   }
 
+  listUsers(query) {
+    const { id: answerId, page, sort } = query;
+    const builder = this.UserAnswer.forge();
+
+    builder
+      .where('answerId', answerId);
+
+    sort.forEach(field => builder.orderBy(field));
+
+    return builder
+      .fetchPage({
+        pageSize: page.size,
+        page: page.number,
+      });
+  }
+
   userVotes(answersIds, userId) {
     return this.UserAnswer
       .query()

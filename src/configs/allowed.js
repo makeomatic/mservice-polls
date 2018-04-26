@@ -23,6 +23,9 @@ module.exports = {
         subscribe: [],
         unsubscribe: [],
       },
+      users: {
+        list: ['root'],
+      },
       create: ['root'],
       update: ['root'],
       delete: ['root'],
